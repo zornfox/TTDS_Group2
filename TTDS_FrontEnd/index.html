@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/68f7541383.js" crossorigin="anonymous"></script>
+    <title>TTDS_Fact_Checker</title>
+</head> 
+<style>
+    body{
+        padding: 0;
+        margin: 0;
+        background: #424242 ;
+      
+    }
+    a{
+        text-decoration: none;
+    }
+    ul,ol {
+        list-style: none ;
+    }
+    #hd {
+        background: #424242 ; 
+        border-bottom: 1px solid #000000;
+    }
+    .topbar{
+        margin: 0 auto;
+        width: 1000px;
+        height: 60px; 
+    }
+
+    .topbar .nav li {
+        float: left;
+        margin: 0 90px;
+    }
+
+    /* .topbar .serch {
+        padding-top:10px;
+    } 
+
+    .topbar .serch input{
+        width:200px;
+        height:38px;
+        border:1px solid #dcdcdc;
+    }
+    .topbar .serch button{
+        width:60px;
+        height:40px;
+        color: #fff;
+        background:#fc5a34;
+    } 
+    .logo{
+        width: 160px;
+        height: 60px;
+        line-height:  60px;
+        color:#fff;
+        background:url("images/logo-bg.png")
+    }
+    .logo span{
+        font-size: 18px;
+    }  */
+    
+
+    .topbar .inner a{
+        color:#BDBDBD;
+        font-size: 16px;
+        line-height:  60px;
+    }
+    .fl{
+        float: left;
+    }
+    .fr{
+        float: right;
+    }
+    .headerPic{
+        width: auto;
+        height:350px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .headerPic img{
+        width:100%;
+        height: 100%;
+    }
+    #bd{
+        margin:450px auto 80px;
+    }
+    .search-box:hover > .search-txt{
+        width:240px; 
+        padding:0 6px;
+    }
+    .search-box:hover > .search-btn{
+        background: white;
+
+    }
+    .search-box{
+        position: absolute;
+        top:80%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        background: #2f3640;
+        height:60px;
+        border-radius:60px;
+        padding:20px;
+    }
+    .search-btn{
+        color: #e84118;
+        float: right;
+        width: 60px;
+        height: 60px;
+        border-radius:50%;
+        background: #2f3640;
+        display:flex;
+        justify-content: center;
+        align-items:center;
+        transition:0.4s;
+    }
+    .search-txt{
+        border:none;
+        background:none;
+        outline: none;
+        float:left;
+        color:white;
+        font-size:24px;
+        transition:0.4s;
+        line-height: 60px;
+        width:0px;
+    }
+    .ft{
+        position:relative;
+        background-color:#BDBDBD;
+        background: #BDBDBD;
+    }
+    .ft .foot{
+        width:1000px;
+        margin: 0 auto;
+        padding-bottom: 20px;
+        font-size:14px;
+        text-align:center;
+    }
+    .ft .foot p{
+        padding-top:20px
+  
+    }
+</style>
+<body>
+    <div class="headerPic">
+         <img src="images/header.png">
+    </div>
+    <div id ="hd">
+        <div class="topbar">
+          <div class="inner">
+                
+                <div class="nav fl">
+                    <ul class="fl">
+                        <li><a href="">Home</a></li>
+                        <li><a href="">About</a></li>
+                        <li><a href="">Help</a></li>
+                        <li><a href="">Contact</a></li>
+                    </ul>
+                </div>
+          </div> 
+        </div>
+    </div>
+    <div id="bd">
+        <div class="search-box"> 
+            <input class="search-txt" type="text" name="" placeholder="Type search">
+            <a class="search-btn" href="#">
+               <i class="fas fa-search"></i>
+            </a>
+        </div>  
+    </div>
+
+    <div class="ft">
+        <div class="foot">
+            <p>
+                TTDS Group Project (Group_ID=2)
+            </p>
+        </div>
+    </div>
+</body>
+</html>
