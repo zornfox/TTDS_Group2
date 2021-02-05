@@ -84,7 +84,17 @@ p{
 .main section ul li a:hover{
     color: #55acee;
 }
-
+.main section ul li input{
+    -webkit-appearance: none;
+    visibility: hidden;
+    display: none;
+}
+.main section ul li input:checked ~ i{
+    color: #fe025b;
+}
+.main section ul li label:hover{
+    color: #fe025b;
+}
 section{
     border-style:solid;
     border-width: .1px;
