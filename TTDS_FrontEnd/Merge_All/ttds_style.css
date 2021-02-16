@@ -154,3 +154,132 @@ p{
 .main section ul li label:hover{
     color: #fe025b;
 }
+
+.search input{
+    margin-left: 30px;
+    width:350px;
+    height:38px;
+    border:1px solid #dcdcdc;
+}
+
+.search button{
+    width:70px;
+    height:38px;
+    color: #fff;
+    background:#e84118;
+} 
+
+.contentBox {
+    margin: 0 auto 60px;
+    width: 1000px;
+    flex: 1;
+}
+
+.menuTypeList {
+    margin-right: 20px;
+    float: left;
+    width: 1000px;
+    padding: 28px 38px 56px 38px;
+    background: #fff;
+  }
+
+.menuTypeList h1 {
+    font-size: 24;
+    margin-bottom: 16px;
+  }
+
+.typeSwitch {
+    margin-bottom: 38px;
+  }
+
+.typeSwitch .diff {
+    color: #fc5a34;
+    padding: 0 10px 0 0;
+    border-right: 1px solid #000;
+  }
+
+.typeSwitch a {
+    padding-left: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 20px;
+  }
+
+.menuList li {
+    margin-bottom: 30px;
+    width: 100%;
+    border: 1px solid #e8e8e8;
+    cursor: pointer;
+  }
+
+/* .menuList li .listImg {
+    float: left;
+    width: 230px;
+    height: 230px;
+    display:flex;
+	align-items:center; 
+	justify-content:center;
+  }
+
+.menuList li .listImg img {
+    width: 100%;
+    height: auto;
+  } */
+
+.listDetails {
+    float: left;
+    padding: 27px;
+    width: calc(100% - 10px);
+  }
+
+.listDetails h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+.listDetails p {
+    margin-bottom: 5px;
+    font-size: 15px;
+  }
+
+.listDetails span {
+    font-size: 13px;
+  }
+
+.listDetails .author {
+    color: #a6784c;
+  }
+
+.listDetails .time {
+    float: right;
+  }
+
+
+.paging {
+    text-align: center;
+  }
+
+.paging span {
+    margin: 0 20px;
+    cursor: pointer;
+  }
+
+.paging a {
+    display: inline-block;
+    min-width: 20px;
+    line-height: 27px;
+    color: #fc5a34;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+.paging .activate {
+    color: #fff;
+    background: #fc5a34;
+  }
+
+.paging .nextPage {
+    color: #fc5a34;
+  }
+
