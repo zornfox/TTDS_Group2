@@ -64,6 +64,7 @@ body{
     justify-content: center;
     align-items:center;
     transition:0.4s;
+    border-style: none;
 }
 
 .search-txt{
@@ -162,7 +163,7 @@ p{
     border:1px solid #dcdcdc;
 }
 
-.search button{
+.search search-btn2{
     width:70px;
     height:38px;
     color: #fff;
@@ -183,10 +184,20 @@ p{
     background: #fff;
   }
 
+.menuTypeList h3 {
+  position: relative;
+  font-size: 24;
+  margin-bottom: 20px;
+}
 .menuTypeList h1 {
-    font-size: 24;
-    margin-bottom: 16px;
-  }
+  position: relative;
+  font-size: 24;
+  margin-top: 20px;
+  margin-bottom:40px;
+  margin-bottom: 16px;
+  display: block;
+  text-align: center;
+}
 
 .typeSwitch {
     margin-bottom: 38px;
@@ -207,9 +218,11 @@ p{
 
 .menuList li {
     margin-bottom: 30px;
+    align-items: center;
     width: 100%;
     border: 1px solid #e8e8e8;
     cursor: pointer;
+    list-style: none;
   }
 
 /* .menuList li .listImg {

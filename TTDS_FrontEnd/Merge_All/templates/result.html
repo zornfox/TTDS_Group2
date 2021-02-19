@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <!-- NavBar -->
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{url_for('home')}}">TTDS Project (Group 2)</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{url_for('home')}}">Home</a>  
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=#>About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=#>Help</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=#>Contact</a>
+                        </li> 
+                        <div class="search">
+                            <form action="#" method="POST">
+                                <input type="text" name="txt" placeholder="Type search">
+                                <button type="submit" class="search-btn2" >
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="contentBox">
+        <div class="menuTypeList">
+            <h3>This claim can be considered as:</h3>
+            <h1 class="finalresult">{{out}}</h1>
+            <div class="typeSwitch">
+                <a class="diff">Documents From Our Dataset</a>
+                <a>Documents From Wikipedia Dataset</a>
+            </div>
+            <ul class="menuList">
+                <li class="clearfix">
+                <div class="listDetails">
+                        <h2><b>5G and coronavirus (COVID-19)</b></h2>
+                        <p class="surplus">
+                            There is no evidence of a link between 5G and coronavirus. These theories have been rejected by scientific experts in the World Health Organisation and Full Fact, a UK-based independent fact checking charity.
+                        </p>
+                        <p class="author">
+                            From GOV.UK
+                        </p>
+                        <span class="time">Published 6 May 2020</span>
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <div class="listDetails">
+                        <h2><b>5G Networks And COVID-19 Coronavirus: Here Are The Latest Conspiracy Theories</b></h2>
+                        <p class="surplus">
+                            There is no scientific evidence that 5G towers are causing COVID-19 symptoms or that 5G radiation is making people more susceptible to SARS-CoV2 infections. COVID-19 has a clear cause, a new coronavirus. It is a biological virus and not an electronic one.
+                        </p>
+                        <p class="author">
+                        From Forbes
+                        </p>
+                    <span class="time">Published 9 Apr 2020</span>
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <div class="listDetails">
+                        <h2><b>5G COVID-19 conspiracy theory baseless and fake, S.Africa's telecoms regulator says</b></h2>
+                        <p class="surplus">
+                            A conspiracy theory linking 5G mobile telecommunications masts to the spread of the coronavirus is baseless and fake, South Africa’s telecom regulator said on Monday after towers in KwaZulu-Natal province were torched last week.
+                        </p>
+                        <p class="author">
+                        From REUTERS
+                        </p>
+                    <span class="time">Published 11 Jan 2021</span>
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <div class="listDetails">
+                        <h2><b>5G and coronavirus (COVID-19)</b></h2>
+                        <p class="surplus">
+                            There is no evidence of a link between 5G and coronavirus. These theories have been rejected by scientific experts in the World Health Organisation and Full Fact, a UK-based independent fact checking charity.
+                        </p>
+                        <p class="author">
+                            From GOV.UK
+                        </p>
+                        <span class="time">Published 6 May 2020</span>
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <div class="listDetails">
+                        <h2><b>5G Networks And COVID-19 Coronavirus: Here Are The Latest Conspiracy Theories</b></h2>
+                        <p class="surplus">
+                            There is no scientific evidence that 5G towers are causing COVID-19 symptoms or that 5G radiation is making people more susceptible to SARS-CoV2 infections. COVID-19 has a clear cause, a new coronavirus. It is a biological virus and not an electronic one.
+                        </p>
+                        <p class="author">
+                        From Forbes
+                        </p>
+                        <span class="time">Published 9 Apr 2020</span>
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <div class="listDetails">
+                        <h2><b>5G COVID-19 conspiracy theory baseless and fake, S.Africa's telecoms regulator says</b></h2>
+                        <p class="surplus">
+                            A conspiracy theory linking 5G mobile telecommunications masts to the spread of the coronavirus is baseless and fake, South Africa’s telecom regulator said on Monday after towers in KwaZulu-Natal province were torched last week.
+                        </p>
+                        <p class="author">
+                            From REUTERS
+                        </p>
+                        <span class="time">Published 11 Jan 2021</span>
+                    </div>
+                </li>
+            </ul>
+            <div class="paging">
+                <span>Last Page</span>
+                <a class="activate">1</a>
+                <a>2</a>
+                <a>3</a>
+                <a>4</a>
+                <a>5</a>
+                <a>...</a>
+                <span class="nextPage">Next Page</span>
+            </div>
+        </div>
+    </div>
+
+
+    
+
+{% endblock %}
