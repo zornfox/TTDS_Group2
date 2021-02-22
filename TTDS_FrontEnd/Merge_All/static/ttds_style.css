@@ -163,11 +163,9 @@ p{
     border:1px solid #dcdcdc;
 }
 
-.search search-btn2{
+.search .search-btn2{
     width:70px;
     height:38px;
-    color: #fff;
-    background:#e84118;
 } 
 
 .contentBox {
@@ -189,15 +187,14 @@ p{
   font-size: 24;
   margin-bottom: 20px;
 }
-.menuTypeList h1 {
+.menuTypeList #finalresult {
   position: relative;
-  font-size: 24;
+  font-size: 50px;
   margin-top: 20px;
-  margin-bottom:40px;
-  margin-bottom: 16px;
-  display: block;
+  margin-bottom:16px;
   text-align: center;
 }
+
 
 .typeSwitch {
     margin-bottom: 38px;
