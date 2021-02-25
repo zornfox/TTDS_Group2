@@ -56,11 +56,11 @@
     
     <div class="main"> 
         <h1>Toy Social Media Extension</h1>
+        {% for i in twitter_data %}
         <section>
             <!--should be read the the post from the txt.file or other format text file-->
-            <p>BBC Breaking News @BBCBreaking - Jan 8<br>   
-            More than 80,000 people have died in the UK within 28 days 
-            of a positive Covid-19 test since the start of the pandemic.
+            <p>#<br>   
+                {{i}}
             </p>
             <!--types of functions for the current post-->
             <ul>
@@ -71,51 +71,9 @@
                 
             </ul>
         </section>
-        <section>
-            <!--should be read the the post from the txt.file or other format text file-->
-            <p>BBC Breaking News @BBCBreaking - Jan 8<br>   
-            More than 80,000 people have died in the UK within 28 days 
-            of a positive Covid-19 test since the start of the pandemic.
-            More than 80,000 people have died in the UK within 28 days 
-            of a positive Covid-19 test since the start of the pandemic.
-            More than 80,000 people have died in the UK within 28 days 
-            of a positive Covid-19 test since the start of the pandemic.
-            More than 80,000 people have died in the UK within 28 days 
-            of a positive Covid-19 test since the start of the pandemic.
-            More than 80,000 people have died in the UK within 28 days 
-            of a positive Covid-19 test since the start of the pandemic.
-            </p>
-            <!--types of functions for the current post-->
-            <ul>
-                <li><a href="#"><i class="fa fa-comment"></i>Comment</a></li>
-                <li><a href="#"><i class="fa fa-share"></i>Share</a></li>
-                <li><label><input type="checkbox"><i class="fa fa-heart"></i>Like</label></li>
-                <li><a href="#"><i class="fa fa-check"></i>Fact/Fake</a></li>
-                
-            </ul>
-        </section>
-        <section>
-            <!--should be read the the post from the txt.file or other format text file-->
-            <p>BBC Breaking News @BBCBreaking - Jan 8<br>   
-            More than 80,000 people have died in the UK within 28 days 
-            of a positive Covid-19 test since the start of the pandemic.
-            </br>
-            More than 80,000 people have died in the UK within 28 days 
-            of a positive Covid-19 test since the start of the pandemic.
-            More than 80,000 people have died in the UK within 28 days 
-            of a positive Covid-19 test since the start of the pandemic.
-            More than 80,000 people have died in the UK within 28 days 
-            of a positive Covid-19 test since the start of the pandemic.
-            </p>
-            <!--types of functions for the current post-->
-            <ul>
-                <li><a href="#"><i class="fa fa-comment"></i>Comment</a></li>
-                <li><a href="#"><i class="fa fa-share"></i>Share</a></li>
-                <li><label><input type="checkbox"><i class="fa fa-heart"></i>Like</label></li>
-                <li><a href="#"><i class="fa fa-check"></i>Fact/Fake</a></li>
-                
-            </ul>
-        </section>
+        {% endfor %}
+        
+       
     </div> 
 
 
