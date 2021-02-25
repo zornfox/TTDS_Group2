@@ -47,7 +47,8 @@ def find(text):
         if words[i].lower() =="covid":
             if words[i+1].lower() =="19":
                 result="Fact"
-
+                
+    # assume these articles are the relative articles
     relative_art=data[:6]     
     return result,relative_art
  
