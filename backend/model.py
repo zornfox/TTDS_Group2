@@ -51,15 +51,6 @@ def porter_stem(string_input):
     # stem words
     return [stem(w) for w in string_input]
 
-def vectorise(words):
-    vectors=[]
-    for w in words:
-        if w not in glove_vectors.wv.vocab:
-            continue
-        else:
-            vectors.append(glove_vectors[w])
-    return vectors
-
 def preprocess(strings):
     # pipeline of preprocessing
     tokens=tokenize(strings)
