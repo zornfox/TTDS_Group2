@@ -48,7 +48,7 @@
             </div>
 
             <ul class="menuList">
-                {% for i in data %}
+                {% for i in pagination.items %}
                     <li class="clearfix">
                         <div class="listDetails">
                                 <h2><b>#</b></h2>
@@ -65,14 +65,22 @@
   
             </ul>
             <div class="paging">
-                <span>Last Page</span>
-                <a class="activate">1</a>
-                <a>2</a>
-                <a>3</a>
-                <a>4</a>
-                <a>5</a>
-                <a>...</a>
-                <span class="nextPage">Next Page</span>
+                {% if pagination.has_prev  %}
+                     <span> <a href="?page={{ pagination.prev_num }}">Last Page </a></span>
+                {% endif %}
+                {% for page in pagination.iter_pages() %}
+                    {% if page %}
+                        {% if page != pagination.page %}
+                            <a href="?page={{ page }}">{{ page }}</a>
+                        {% else %}
+                            <a  class="activate">{{ page }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if pagination.has_next  %}
+                <span class="nextPage"><a href="?page={{pagination.next_num}}">Next Page</a></span>
+                {% endif %}
+                <span>Displaying {{(pagination.page-1)*pagination.page_size + 1}}  to {{pagination.page*pagination.page_size}} of {{pagination.total}} items</span>
             </div>
         </div>
     </div>
