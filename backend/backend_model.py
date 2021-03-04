@@ -131,15 +131,15 @@ class Model():
 
     def w2v(self, terms):
         cos_scores={}
-        t_vec = np.sum([new_model[t] for t in terms],axis=0)/len(terms)
+        t_vec = np.sum([self.w2v_model[t] for t in terms],axis=0)/len(terms)
         for d in self.ids:
             d_text=self.doc_text[d]
             d_vec=np.zeros(100)
             i=0
             for t in d_text:
-                if t not in new_model.wv.vocab:
+                if t not in self.w2v_model.wv.vocab:
                     continue
-                d_vec=d_vec+new_model[t]
+                d_vec=d_vec+self.w2v_model[t]
                 i=i+1
                 
             d_vec = d_vec/i
