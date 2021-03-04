@@ -1,17 +1,16 @@
 from flask import Flask, redirect, url_for, render_template, request
 import pandas as pd
 
+from backend import backend_model
 app = Flask(__name__)
 
-#test model
-#reading first five article from csv file.
-#poynter_data_path="backend/data/poynter_claims_explanation.csv"
-poynter_data_path="backend/data/poynter_claims_explanation.csv"
-poynter_df=pd.read_csv(poynter_data_path).dropna() # Remove missing values.
-# poynter_df=pd.read_csv(poynter_data_path).iloc[:,1]
-poynter_df=pd.read_csv(poynter_data_path).iloc[:20,1]
-datas=list(set(poynter_df.values))
 
+
+# run this once
+# --------
+m=backend_model.Model()
+m.prepare_model()
+# --------
 
 @app.route("/", methods=["POST","GET"])
 def home():
@@ -19,13 +18,14 @@ def home():
         text = request.form["txt"]
         return redirect(url_for("result", inp=text))
     else:
-        return render_template("web.html", twitter_data=datas[:10])
+        return render_template("web.html")
 
 @app.route("/<inp>", methods=["POST","GET"])
 def result(inp):
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
-    out,articles=find(inp)
+    out="hello"
+    articles=m.retrieve_documents(inp)
     pagination = Pagination(page_no, articles, page_size=page_size)
     if request.method =="POST":
         text = request.form["txt"]
@@ -37,19 +37,6 @@ def result(inp):
     else:
         return render_template("result.html",pagination=pagination,out=out)
 
-
-# if the input text contains the terms of "covid 19", we say it is true
-def find(text):
-    result="Fake"
-    relative_art=["hello"]
-    words = text.split(" ")
-    for i in range(len(words)-1):
-        if words[i].lower() =="covid":
-            if words[i+1].lower() =="19":
-                result="Fact"
-    # assume these articles are the relative articles
-    relative_art=datas
-    return result,relative_art
 
 
 
@@ -76,7 +63,7 @@ class Pagination(object):
         # total data size 
         self.total = len(datas)
         # total page 
-        _pages = (self.total + page_size - 1) / page_size;
+        _pages = (self.total + page_size - 1) / page_size
         self.pages = int(_pages)
         self.has_prev = current_page > 1 and  current_page <= self.pages if True else False
         self.has_next = current_page < self.pages if True else False
