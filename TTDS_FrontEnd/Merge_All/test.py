@@ -26,6 +26,9 @@ def result(inp):
     page_size = request.args.get('pageSize', 5, type=int)
     out="hello"
     articles=m.retrieve_documents(inp)
+    found=True
+    if articles==[]:
+        found=False
     pagination = Pagination(page_no, articles, page_size=page_size)
     if request.method =="POST":
         text = request.form["txt"]
@@ -33,9 +36,9 @@ def result(inp):
         if text!="":
             return redirect(url_for("result", inp=text))
         else:
-            return render_template("result.html", pagination=pagination,out=out)
+            return render_template("result.html", pagination=pagination,out=out,input=inp, found=found)
     else:
-        return render_template("result.html",pagination=pagination,out=out)
+        return render_template("result.html",pagination=pagination,out=out,input=inp, found=found)
 
 
 

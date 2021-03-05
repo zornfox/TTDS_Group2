@@ -2,86 +2,75 @@
 
 {% block content %}
 
-    <!-- NavBar -->
-    <div class="fixed-top">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{{url_for('home')}}">TTDS Project (Group 2)</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{url_for('home')}}">Home</a>  
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=#>About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=#>Help</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=#>Contact</a>
-                        </li> 
-                        <div class="search">
-                            <form name="input form"action="#" method="POST">
-                                <input type="text" name="txt" placeholder="Type search">
-                                <button type="submit" class="search-btn2" >
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
 
     <div class="contentBox">
         <div class="menuTypeList">
-            <!-- <h3>This claim can be considered as:</h3>
-            <h1 id="finalresult">{{out}}</h1>
-            <div class="typeSwitch">
-                <a class="diff">Documents From Our Dataset</a>
-                <a>Documents From Wikipedia Dataset</a>
-            </div> -->
+            <!-- search bar -->
+            <div class="boxcontainer">
+                <table class="searchbox"> 
+                    <tr>
+                        <td>
+                            <form name="input form"action="#" method="POST">
+                                <input class="searchtxt" type="text" name="txt" placeholder="{{input}}">
+                            </form>
+                        </td>
+                        <td>
+                            <a class="searchbtn" href="#">
+                                <i class="fas fa-search"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    
+                </table>  
 
-            <ul class="menuList">
-                {% for i in pagination.items %}
-                    <li class="clearfix">
-                        <div class="listDetails">
-                                <h2><b>#</b></h2>
-                                <p class="surplus">
-                                    {{i}}
-                                </p>
-                                <p class="author">
-                                    #
-                                </p>
-                                <span class="time">#</span>
-                        </div>
-                    </li>
-                {% endfor %}
-  
-            </ul>
-            <div class="paging">
-                {% if pagination.has_prev  %}
-                     <span> <a href="?page={{ pagination.prev_num }}">Last Page </a></span>
-                {% endif %}
-                {% for page in pagination.iter_pages() %}
-                    {% if page %}
-                        {% if page != pagination.page %}
-                            <a href="?page={{ page }}">{{ page }}</a>
-                        {% else %}
-                            <a  class="activate">{{ page }}</a>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-                {% if pagination.has_next  %}
-                <span class="nextPage"><a href="?page={{pagination.next_num}}">Next Page</a></span>
-                {% endif %}
-                <span>Displaying {{(pagination.page-1)*pagination.page_size + 1}}  to {{pagination.page*pagination.page_size}} of {{pagination.total}} items</span>
             </div>
+
+
+
+            
+            {%if not found%}
+                <h1 class="finalresult">No results was found for "{{input}}".</h1>
+            {% else %}
+
+                <ul class="menuList">
+                    
+                    {% for i in pagination.items %}
+                        <li class="clearfix">
+                            <div class="listDetails">
+                                    <h2><b>#</b></h2>
+                                    <p class="surplus">
+                                        {{i}}
+                                    </p>
+                                    <p class="author">
+                                        #
+                                    </p>
+                                    <span class="time">#</span>
+                            </div>
+                        </li>
+                    {% endfor %}
+    
+                </ul>
+                <div class="paging">
+                    {% if pagination.has_prev  %}
+                        <span> <a href="?page={{ pagination.prev_num }}">Last Page </a></span>
+                    {% endif %}
+                    {% for page in pagination.iter_pages() %}
+                        {% if page %}
+                            {% if page != pagination.page %}
+                                <a href="?page={{ page }}">{{ page }}</a>
+                            {% else %}
+                                <a  class="activate">{{ page }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if pagination.has_next  %}
+                    <span class="nextPage"><a href="?page={{pagination.next_num}}">Next Page</a></span>
+                    {% endif %}
+                    <span>Displaying {{(pagination.page-1)*pagination.page_size + 1}}  to {{pagination.page*pagination.page_size}} of {{pagination.total}} items</span>
+                </div>
+            
+            {% endif%}
+
         </div>
     </div>
 
