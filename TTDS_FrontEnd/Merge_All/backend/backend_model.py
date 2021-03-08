@@ -191,7 +191,7 @@ class Model():
     def get_II(self):
         return self.inverted_index
     
-    def retrieve_documents(self, claim, retrieve_num=100):
+    def retrieve_documents(self, claim, retrieve_num=5):
         retrieved_text=[]
         article_ids=list(self.parse_tfidf_query(claim))[0:retrieve_num]
         for i in article_ids:
