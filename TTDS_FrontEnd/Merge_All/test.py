@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request
 import pandas as pd
-
+import numpy as np
 from backend import backend_model
 app = Flask(__name__)
 
@@ -25,11 +25,13 @@ def result(inp):
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
     out="hello"
-    articles=m.retrieve_documents(inp)
+    articles, articles_urls=m.retrieve_documents(inp,100)
+    #combine all the data we need into a set
+    articles_datas=np.vstack((articles,articles_urls)).T
     found=True
     if articles==[]:
         found=False
-    pagination = Pagination(page_no, articles, page_size=page_size)
+    pagination = Pagination(page_no, articles_datas, page_size=page_size)
     if request.method =="POST":
         text = request.form["txt"]
         #if the input is empty, stay on the same page
