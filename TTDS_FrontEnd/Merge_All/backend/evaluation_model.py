@@ -11,18 +11,18 @@ from numpy import dot
 from numpy.linalg import norm
 
 # Path to stop words file
-stop_word_path="backend/englishST.txt"
+stop_word_path="englishST.txt"
 
 # Load in data
 data=[]
-poynter_data_path="backend/data/poynter_claims_explanation.csv"
+poynter_data_path="data/poynter_claims_explanation.csv"
 poynter_df=pd.read_csv(poynter_data_path).dropna()
 poynter_df=pd.read_csv(poynter_data_path).iloc[:,1]
 data=list(set(poynter_df.values))
 
 # w2v path
-covid_w2v_path = "backend/models/model.bin"
-all_w2v_path = "backend/models/all_model.bin"
+covid_w2v_path = "models/model.bin"
+all_w2v_path = "models/all_model.bin"
 
 with open(stop_word_path, "r") as f:
     stop_words=f.read()
