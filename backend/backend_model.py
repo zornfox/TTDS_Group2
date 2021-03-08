@@ -13,7 +13,7 @@ from numpy.linalg import norm
 class Model():
     def __init__(self):
         self.stop_word_path="englishST.txt"
-        self.poynter_data_path="data/poynter_claims_explanation.csv"
+        self.poynter_data_path="data/poynter_claim_explanation_url.csv"
         self.covid_w2v_path = "models/model.bin"
         self.all_w2v_path = "models/all_model.bin"
 
@@ -65,9 +65,14 @@ class Model():
         # Load in data
         data=[]
         # poynter_df=pd.read_csv(self.poynter_data_path).dropna()
-        poynter_df=pd.read_csv(self.poynter_data_path).iloc[:,1]
-        data=list(set(poynter_df.values))
-        
+        poynter_df=pd.read_csv(self.poynter_data_path).iloc[:,1:]
+
+        poynter_df=poynter_df.drop_duplicates()
+        # index=poynter_df.duplicated()
+        # print(poynter_df[index])
+        data=list(poynter_df["claim_explanation"].values)
+        data_urls=list(poynter_df["reference_url"].values)
+
         # Preprocess data
         preprocessed_data=[]
         self.text_t=[]
@@ -76,6 +81,7 @@ class Model():
             self.text_t.append(t)
 
         data=dict(list(zip(range(len(preprocessed_data)),preprocessed_data)))
+        self.url_mapping=dict(list(zip(range(len(preprocessed_data)),data_urls)))
         self.data=data
 
         # self.covid_model = Word2Vec.load(self.covid_w2v_path)
@@ -193,7 +199,9 @@ class Model():
     
     def retrieve_documents(self, claim, retrieve_num=5):
         retrieved_text=[]
+        retrieved_urls=[]
         article_ids=list(self.parse_tfidf_query(claim))[0:retrieve_num]
         for i in article_ids:
             retrieved_text.append(self.text_t[i])
-        return retrieved_text
+            retrieved_urls.append(self.url_mapping[i])
+        return retrieved_text, retrieved_urls
