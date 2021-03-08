@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <title>{{input}} - Search</title>
+{% endblock %}
+{% block content %}
+
+
+    <div class="contentBox">
+        <div class="menuTypeList">
+            <div class="boxcontainer">
+                <form action="#" method="POST">
+                    <div class="searchbox">
+                        <input class="searchtxt" id="searchbar" type="text" name="txt" placeholder="Search" value="{{input}}">
+                        <button type="submit" class="searchbtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button type="button" onclick="clearThis()" class="clear">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                </form>
+              
+            </div>
+
+
+            
+            {%if not found%}
+                <h1 class="finalresult">No results was found for "{{input}}".</h1>
+            {% else %}
+
+                <ul class="menuList">
+                    
+                    {% for txt,url in pagination.items %}
+                        <li class="clearfix">
+                            <div class="listDetails">
+                                    <h2><b>#</b></h2>
+                                    <!--redirect to the orginal url on a new page when user click the text-->
+                                    
+                                    <a class="surplus" href={{url}} target="_blank">{{txt}}</a>
+                                    
+                                    
+                                    
+                                    <p class="author">
+                                        #
+                                    </p>
+                                    <span class="time">#</span>
+                            </div>
+                        </li>
+                    {% endfor %}
+    
+                </ul>
+                <div class="paging">
+                    {% if pagination.has_prev  %}
+                        <span> <a href="?page={{ pagination.prev_num }}">Last Page </a></span>
+                    {% endif %}
+                    {% for page in pagination.iter_pages() %}
+                        {% if page %}
+                            {% if page != pagination.page %}
+                                <a href="?page={{ page }}">{{ page }}</a>
+                            {% else %}
+                                <a  class="activate">{{ page }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if pagination.has_next  %}
+                    <span class="nextPage"><a href="?page={{pagination.next_num}}">Next Page</a></span>
+                    {% endif %}
+                    <span>Displaying {{(pagination.page-1)*pagination.page_size + 1}}  to {{pagination.page*pagination.page_size}} of {{pagination.total}} items</span>
+                </div>
+            
+            {% endif%}
+
+        </div>
+    </div>
+
+
+{% endblock %}
