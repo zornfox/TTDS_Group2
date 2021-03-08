@@ -8,8 +8,10 @@ m.prepare_model()
 
 # run this for any incoming claims
 claim="coronavirus is not a virus but a bacteria"
-articles=m.retrieve_documents(claim)
+articles_text, articles_urls=m.retrieve_documents(claim)
 
-for x in articles[0:5]:
-    print(x)
+for i in range(5):
+    text=articles_text[i]
+    url=articles_urls[i]
+    print(text,url)
     print("-"*10)
