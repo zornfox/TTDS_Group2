@@ -114,6 +114,7 @@ section{
     background-color: #2f3640;
     padding: 5px 5px;
     box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.5);
+    
 }
 section:hover{
     transform: translate(5px,-5px);
@@ -186,17 +187,15 @@ p{
     min-height: 100vh;
     margin-bottom: 5px;
   }
-.clearfix:hover{
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
 .menuTypeList .boxcontainer {
     position: relative;
-    width: auto;
-    height: auto;
+    
+    width: 300px;
+    height: 45px;
     border-radius: 50px;
     margin-left: 30px;
     margin-bottom: 30px;
-
+    padding:0px 10px ;
     border: 1px solid black;
 }
 .menuTypeList .boxcontainer:hover{
@@ -205,39 +204,21 @@ p{
 }
 
 .menuTypeList .boxcontainer .searchbox {
-  width:auto;
-  height:45px;
-  vertical-align: center;
-  padding: 0px 10px;
+  width:100%;
+  height:100%;
+  vertical-align: middle;
 
 }
 .menuTypeList .searchtxt{
-  width:90%;
+  width:100%;
   height:100%;
   border:none;
   padding: 0px 10px;
   color:#424242;
-  display: flex;
-  font-size: 18pt;
-  border-radius: 50px;
-  display: inline-block !important;
 }
-.menuTypeList .clear,.searchbtn{
-  float: right;
+.menuTypeList .searchbtn{
   color:black;
-  width: 45px;
-  height: 45px;
-  border-radius:50%;
-  display:flex;
-  justify-content: center;
-  align-items:center;
-  background-color: white;
-  border-style: none;
-  display: inline-block !important;
-}
 
-.menuTypeList .searchbtn :hover, .clear:hover{
-color:#55acee
 }
 .menuTypeList .searchtxt:focus{
   outline: none;
@@ -272,8 +253,13 @@ color:#55acee
   }
 
 .menuList li {
+
+
+
     border: 1px solid #e8e8e8;
+    cursor: pointer;
     list-style: none;
+
   }
 
 /* .menuList li .listImg {
@@ -301,15 +287,6 @@ color:#55acee
     margin-bottom: 5px;
   }
 
-.listDetails a {
-  margin-bottom: 5px;
-  font-size: 18px;
-  text-decoration: none;
-  color: black;
-}
-.listDetails a:hover {
-  cursor: pointer;
-}
 .listDetails p {
     margin-bottom: 5px;
     font-size: 15px;

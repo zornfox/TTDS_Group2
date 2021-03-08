@@ -1,15 +1,12 @@
 {% extends "layout.html" %}
 
-{% block head %}
-    <title>{{input}} - Search</title>
-{% endblock %}
 {% block content %}
 
 
     <div class="contentBox">
         <div class="menuTypeList">
             <!-- search bar -->
-            <!-- <div class="boxcontainer">
+            <div class="boxcontainer">
                 <table class="searchbox"> 
                     <tr>
                         <td>
@@ -26,23 +23,8 @@
                     
                 </table>  
 
-
-            </div> -->
-            <div class="boxcontainer">
-                <form action="#" method="POST">
-                    <div class="searchbox">
-                        <input class="searchtxt" id="searchbar" type="text" name="txt" placeholder="Search" value="{{input}}">
-                        <button type="submit" class="searchbtn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                        <button type="button" onclick="clearThis()" class="clear">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-
-                </form>
-              
             </div>
+
 
 
             
@@ -52,16 +34,13 @@
 
                 <ul class="menuList">
                     
-                    {% for txt,url in pagination.items %}
+                    {% for i in pagination.items %}
                         <li class="clearfix">
                             <div class="listDetails">
                                     <h2><b>#</b></h2>
-                                    <!--redirect to the orginal url on a new page when user click the text-->
-                                    
-                                    <a class="surplus" href={{url}} target="_blank">{{txt}}</a>
-                                    
-                                    
-                                    
+                                    <p class="surplus">
+                                        {{i}}
+                                    </p>
                                     <p class="author">
                                         #
                                     </p>
