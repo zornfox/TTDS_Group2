@@ -26,6 +26,7 @@ data=list(set(poynter_df.values))
 # w2v path
 covid_w2v_path = "models/model.bin"
 all_w2v_path = "models/all_model.bin"
+all_train_w2v_path = "models/all_model_train.bin"
 
 with open(stop_word_path, "r") as f:
     stop_words=f.read()
@@ -34,6 +35,7 @@ print(covid_w2v_path)
 
 covid_model = Word2Vec.load(covid_w2v_path)
 all_model = Word2Vec.load(all_w2v_path)
+all_model_train= Word2Vec.load(all_train_w2v_path)
 
 def tokenize(string_input):
     # split on any non-letter character
@@ -168,16 +170,26 @@ class II():
     
     def get_tf_vectors(self, t, d):
         if t not in self.w2v_model.wv.vocab:
+            print("hit")
             return self.inverted_index[t][d][0]
-        threshold=0.93
+        threshold=0.85
         count=0
+        # for dw in self.doc_text:
+        #     if dw=="nerf":
+        #         print(self.doc_text)
         for dw in self.doc_text[d]:
             if dw not in self.w2v_model.wv.vocab:
+                print("hit1")
                 continue
             else:
-                dist=self.w2v_model.similarity(t,dw)
-                if dist<threshold:
-                    count=count+1
+                sim=self.w2v_model.similarity(t,dw)
+                if sim>=threshold:
+                    count+=1
+                # if dist<threshold:
+                #     print("hit")
+                #     count=count+1
+        if count==0:
+            print("hit2")
         return count
 
     def TFIDF(self,t,d):
@@ -228,13 +240,24 @@ class II():
                     docs.append(d)
         return docs
 
+    def get_docs_with_terms1(self,terms):
+        docs=[]
+        for t in terms:
+            for d in list(self.inverted_index[t].keys()):
+                if d not in docs:
+                    docs.append(d)
+        return docs
+
     def parse_tfidf_query(self,q,wv=False,w2v_model=None):
         if wv:
             self.w2v_model=w2v_model
         weighted_docs={}
         self.wv=wv
         terms=self.preprocess(q)
-        docs=self.get_docs_with_terms(terms)
+        if wv:
+            docs=self.ids
+        else:
+            docs=self.get_docs_with_terms(terms)
         for d in docs:
             cur_w=0
             for t in terms:
@@ -280,15 +303,15 @@ ii=II(stop_word_path,data)
 # if not in evaluation case, please comment out this block and UNCOMMENT the block above this one
 
 # prepare the result file
-test_id = '03'
-RankedIROutput = open(test_id + '_results.tsv', 'w')
+test_id = '04'
+RankedIROutput = open(test_id + '_results.tsv', 'w', newline='')
 results_fields = ['tweet_id','Q0','vclaim_id','rank','score','tag']
 writer = csv.DictWriter(RankedIROutput, fieldnames = results_fields)
 writer.writeheader()
 
 for query_id, query in zip(tweets_id, tweets_list):
 
-    search_result = list(ii.parse_tfidf_query(query,wv=True,w2v_model=all_model))
+    search_result = list(ii.parse_tfidf_query(query,wv=True,w2v_model=all_model_train))
 
     # write into submitted file
     count = 0  # provide up to x result
