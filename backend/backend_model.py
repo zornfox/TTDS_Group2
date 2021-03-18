@@ -10,18 +10,26 @@ from sklearn.metrics.pairwise import cosine_similarity
 from numpy import dot
 from numpy.linalg import norm
 
+#url
+#source
+#region
+#score
+#
+
 class Model():
     def __init__(self):
         self.stop_word_path="englishST.txt"
         self.poynter_data_path="data/poynter_claim_explanation_url.csv"
+        self.cord19_data_path="data/cord19.csv"
+
         self.covid_w2v_path = "models/model.bin"
         self.all_w2v_path = "models/all_model.bin"
 
         # read stop words from file
         with open(self.stop_word_path, "r") as f:
             self.stop_words=f.read()
-            self.stop_words=self.stop_words.split("\n")
-
+            self.stop_words=self.stop_words.split("\n")    
+    
     def tokenize(self,string_input):
         # split on any non-letter character
         string_input=string_input.replace("’","").replace("‘","").replace(".","").replace("-","").replace("'","").replace(",","")
@@ -66,19 +74,34 @@ class Model():
         data=[]
         # poynter_df=pd.read_csv(self.poynter_data_path).dropna()
         poynter_df=pd.read_csv(self.poynter_data_path).iloc[:,1:]
+        cord19_df=pd.read_csv(self.cord19_data_path).iloc[:,1:]
 
         poynter_df=poynter_df.drop_duplicates()
         # index=poynter_df.duplicated()
         # print(poynter_df[index])
-        data=list(poynter_df["claim_explanation"].values)
+        poynter=list(poynter_df["claim_explanation"].values)
         data_urls=list(poynter_df["reference_url"].values)
 
+        cord19=list(cord19_df["0"].values)
+
+        self.sources=[]
         # Preprocess data
         preprocessed_data=[]
         self.text_t=[]
-        for t in data:
+        for t in poynter:
             preprocessed_data.append(self.preprocess(t))
             self.text_t.append(t)
+            self.sources.append("poynter")
+        
+        for t in cord19:
+            if (type(t)==float):
+                continue
+            preprocessed_data.append(self.preprocess(t))
+            self.text_t.append(t)
+            data_urls.append(None)
+            self.sources.append("cord19")
+        
+
 
         data=dict(list(zip(range(len(preprocessed_data)),preprocessed_data)))
         self.url_mapping=dict(list(zip(range(len(preprocessed_data)),data_urls)))
@@ -109,17 +132,28 @@ class Model():
 
     def get_tf_vectors(self, t, d):
         if t not in self.w2v_model.wv.vocab:
+            print("hit")
             return self.inverted_index[t][d][0]
-        threshold=0.93
+        threshold=0.85
         count=0
+        # for dw in self.doc_text:
+        #     if dw=="nerf":
+        #         print(self.doc_text)
         for dw in self.doc_text[d]:
             if dw not in self.w2v_model.wv.vocab:
+                print("hit1")
                 continue
             else:
-                dist=self.w2v_model.similarity(t,dw)
-                if dist<threshold:
-                    count=count+1
+                sim=self.w2v_model.similarity(t,dw)
+                if sim>=threshold:
+                    count+=1
+                # if dist<threshold:
+                #     print("hit")
+                #     count=count+1
+        if count==0:
+            print("hit2")
         return count
+
     
     def TFIDF(self,t,d):
         N=len(self.ids)
@@ -159,23 +193,31 @@ class Model():
         x=self.w2v(terms)
         return dict(sorted(x.items(), key=lambda item: item[1], reverse=True))
         
-    def get_docs_with_terms(self,terms):
+    def get_docs_with_terms(self,terms,dataset):
         docs=[]
         for t in terms:
             if t not in self.inverted_index.keys():
                 continue
             for d in list(self.inverted_index[t].keys()):
                 if d not in docs:
-                    docs.append(d)
+                    if self.sources[d]==dataset or dataset=="all":
+                        docs.append(d)
         return docs
 
-    def parse_tfidf_query(self,q,wv=False):
+    def parse_tfidf_query(self,q,wv=False,dataset="poynter"):
         # if wv:
         #     self.w2v_model=w2v_model
         weighted_docs={}
         self.wv=wv
         terms=self.preprocess(q)
-        docs=self.get_docs_with_terms(terms)
+
+        if wv:
+            docs=[]
+            for i in self.ids:
+                 if self.sources[i]==dataset or dataset=="all":
+                     docs.append(i)
+        else:
+            docs=self.get_docs_with_terms(terms,dataset)
         for d in docs:
             cur_w=0
             for t in terms:
@@ -200,8 +242,13 @@ class Model():
     def retrieve_documents(self, claim, retrieve_num=5):
         retrieved_text=[]
         retrieved_urls=[]
-        article_ids=list(self.parse_tfidf_query(claim))[0:retrieve_num]
+        retrieved_scores=[]
+        a=self.parse_tfidf_query(claim)
+        article_ids=list(a)[0:retrieve_num]
+        a=np.array(list(a.values()))
+        a /= np.max(a)
         for i in article_ids:
             retrieved_text.append(self.text_t[i])
             retrieved_urls.append(self.url_mapping[i])
-        return retrieved_text, retrieved_urls
+        retrieved_scores.append(a)
+        return retrieved_text, retrieved_urls, a
