@@ -9,6 +9,8 @@ import gensim
 from sklearn.metrics.pairwise import cosine_similarity
 from numpy import dot
 from numpy.linalg import norm
+import csv
+import pandas as pd
 
 # Path to stop words file
 stop_word_path="englishST.txt"
@@ -18,11 +20,13 @@ data=[]
 poynter_data_path="data/poynter_claims_explanation.csv"
 poynter_df=pd.read_csv(poynter_data_path).dropna()
 poynter_df=pd.read_csv(poynter_data_path).iloc[:,1]
+
 data=list(set(poynter_df.values))
 
 # w2v path
 covid_w2v_path = "models/model.bin"
 all_w2v_path = "models/all_model.bin"
+all_train_w2v_path = "models/all_model_train.bin"
 
 with open(stop_word_path, "r") as f:
     stop_words=f.read()
@@ -31,6 +35,7 @@ print(covid_w2v_path)
 
 covid_model = Word2Vec.load(covid_w2v_path)
 all_model = Word2Vec.load(all_w2v_path)
+all_model_train= Word2Vec.load(all_train_w2v_path)
 
 def tokenize(string_input):
     # split on any non-letter character
@@ -65,6 +70,35 @@ for t in data:
     preprocessed_data.append(preprocess(t))
 
 data=dict(list(zip(range(len(preprocessed_data)),preprocessed_data)))
+# dict of list of string<vclaiim>
+# e.g. {997: ['website','offers','rapid','diagnose'], 998:['sds','12ewe']...}
+
+# --------------- evaluation codes start ------------------------
+# test data directory: data/CheckThat2020
+# If not in evaluation case, just comment out this block
+
+# parse the verified claims
+vclaims_directory = 'data/TestData/verified_claims.docs.tsv'
+vclaims_fields = ['vclaim_id', 'vclaim', 'title']
+df_vc = pd.read_csv(vclaims_directory, usecols = vclaims_fields, sep = '\t')
+vclaims_list = df_vc.vclaim.tolist().copy()
+vclaims_tokens=[]
+for t in vclaims_list:
+    vclaims_tokens.append(preprocess(t))
+
+vclaims_id = df_vc.vclaim_id.tolist().copy()
+data = dict(zip(vclaims_id, vclaims_tokens)) # replace data variable for evaluation
+
+# prepare queries and put them in a list
+tweets_directory = 'data/TestData/train/tweets.queries.tsv'
+tweets_fields = ['tweet_id', 'tweet_content']
+df_t = pd.read_csv(tweets_directory, usecols = tweets_fields, sep = '\t')
+tweets_list = df_t.tweet_content.tolist().copy()
+tweets_id = df_t.tweet_id.tolist().copy()
+
+# ------------------- evaluation codes end ---------------------
+
+
 
 class II():
     def __init__(self,stop_words_path,data):
@@ -85,13 +119,13 @@ class II():
         self.doc_text={}
         self.wv=False
 
-        # iterate over all documents
+        # # iterate over all documents
         for (d_id, d) in self.data.items():
             cur_id=d_id
-            text=d            
+            text=d
             self.ids.append(cur_id)
             self.doc_text[cur_id]=text
-            
+
             # update inverted index using headline and text for document "cur_id"
             self.inverted_index=self.get_inverted_index(text,cur_id)
 
@@ -136,16 +170,26 @@ class II():
     
     def get_tf_vectors(self, t, d):
         if t not in self.w2v_model.wv.vocab:
+            print("hit")
             return self.inverted_index[t][d][0]
-        threshold=0.93
+        threshold=0.85
         count=0
+        # for dw in self.doc_text:
+        #     if dw=="nerf":
+        #         print(self.doc_text)
         for dw in self.doc_text[d]:
             if dw not in self.w2v_model.wv.vocab:
+                print("hit1")
                 continue
             else:
-                dist=self.w2v_model.similarity(t,dw)
-                if dist<threshold:
-                    count=count+1
+                sim=self.w2v_model.similarity(t,dw)
+                if sim>=threshold:
+                    count+=1
+                # if dist<threshold:
+                #     print("hit")
+                #     count=count+1
+        if count==0:
+            print("hit2")
         return count
 
     def TFIDF(self,t,d):
@@ -196,13 +240,24 @@ class II():
                     docs.append(d)
         return docs
 
+    def get_docs_with_terms1(self,terms):
+        docs=[]
+        for t in terms:
+            for d in list(self.inverted_index[t].keys()):
+                if d not in docs:
+                    docs.append(d)
+        return docs
+
     def parse_tfidf_query(self,q,wv=False,w2v_model=None):
         if wv:
             self.w2v_model=w2v_model
         weighted_docs={}
         self.wv=wv
         terms=self.preprocess(q)
-        docs=self.get_docs_with_terms(terms)
+        if wv:
+            docs=self.ids
+        else:
+            docs=self.get_docs_with_terms(terms)
         for d in docs:
             cur_w=0
             for t in terms:
@@ -226,16 +281,55 @@ class II():
 
 ii=II(stop_word_path,data)
 
-# normal tfidf
-claim="the moon landing was"
-articles=list(ii.parse_tfidf_query(claim))
+# ================= normal codes start =========================
 
-# w2v tfidf with covid model
-claim="coronavirus is not a virus but a bacteria"
-articles=list(ii.parse_tfidf_query(claim,wv=True,w2v_model=covid_model))
+# # normal tfidf
+# claim="the moon landing was"
+# articles=list(ii.parse_tfidf_query(claim))
+#
+# # w2v tfidf with covid model
+# claim="coronavirus is not a virus but a bacteria"
+# articles=list(ii.parse_tfidf_query(claim,wv=True,w2v_model=covid_model))
+#
+# # w2v tfidf with full model
+# claim="coronavirus is not a virus but a bacteria"
+# articles=list(ii.parse_tfidf_query(claim,wv=True,w2v_model=all_model))
+#
+# print(articles[0:5])
 
-# w2v tfidf with full model
-claim="coronavirus is not a virus but a bacteria"
-articles=list(ii.parse_tfidf_query(claim,wv=True,w2v_model=all_model))
+# =================== normal codes end ==========================
 
-print(articles[0:5])
+# ----------------- evaluation codes start------------------------
+# if not in evaluation case, please comment out this block and UNCOMMENT the block above this one
+
+# prepare the result file
+test_id = '04'
+RankedIROutput = open(test_id + '_results.tsv', 'w', newline='')
+results_fields = ['tweet_id','Q0','vclaim_id','rank','score','tag']
+writer = csv.DictWriter(RankedIROutput, fieldnames = results_fields)
+writer.writeheader()
+
+for query_id, query in zip(tweets_id, tweets_list):
+
+    search_result = list(ii.parse_tfidf_query(query,wv=True,w2v_model=all_model_train))
+
+    # write into submitted file
+    count = 0  # provide up to x result
+    for matched_docID, toy_score in zip(search_result, list(reversed(range(len(search_result))))):
+        # here list(reversed(range(len(search_result)))) are just fake scores generated for evaluation
+        # can be replaced by real scores generated by model afterwards
+        count = count + 1
+        if count > 100:  # output top X result
+            break
+
+        tweet_id = query_id
+        vclaim_id = matched_docID
+        score = toy_score  # For simplicity we ignore the score for now
+        tag = 'DC'  # meaningless tag
+        return_data = {'tweet_id': tweet_id, 'Q0': 'Q0', 'vclaim_id': vclaim_id, 'rank': 1,
+                       'score': score, 'tag': tag}
+        writer = csv.DictWriter(RankedIROutput, fieldnames=results_fields, delimiter='\t')
+        writer.writerow(return_data)
+
+RankedIROutput.close()
+# ----------------- evaluation codes end -------------------------

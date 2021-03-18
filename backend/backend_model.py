@@ -10,18 +10,26 @@ from sklearn.metrics.pairwise import cosine_similarity
 from numpy import dot
 from numpy.linalg import norm
 
+#url
+#source
+#region
+#score
+#
+
 class Model():
     def __init__(self):
         self.stop_word_path="englishST.txt"
         self.poynter_data_path="data/poynter_claim_explanation_url.csv"
+        self.cord19_data_path="data/cord19.csv"
+
         self.covid_w2v_path = "models/model.bin"
         self.all_w2v_path = "models/all_model.bin"
 
         # read stop words from file
         with open(self.stop_word_path, "r") as f:
             self.stop_words=f.read()
-            self.stop_words=self.stop_words.split("\n")
-
+            self.stop_words=self.stop_words.split("\n")    
+    
     def tokenize(self,string_input):
         # split on any non-letter character
         string_input=string_input.replace("’","").replace("‘","").replace(".","").replace("-","").replace("'","").replace(",","")
@@ -66,14 +74,26 @@ class Model():
         data=[]
         # poynter_df=pd.read_csv(self.poynter_data_path).dropna()
         poynter_df=pd.read_csv(self.poynter_data_path).iloc[:,1:]
+        cord19_df=pd.read_csv(self.cord19_data_path).iloc[:,1:]
 
         poynter_df=poynter_df.drop_duplicates()
         # index=poynter_df.duplicated()
         # print(poynter_df[index])
-        data=list(poynter_df["claim_explanation"].values)
+        poynter=list(poynter_df["claim_explanation"].values)
         data_urls=list(poynter_df["reference_url"].values)
 
+        cord19=list(cord19_df)
+
         # Preprocess data
+        preprocessed_data=[]
+        self.text_t=[]
+        for t in poynter:
+            preprocessed_data.append(self.preprocess(t))
+            self.text_t.append(t)
+        for t in cord19:
+            preprocessed_data.append(self.preprocess(t))
+            self.text_t.append(t)
+
         preprocessed_data=[]
         self.text_t=[]
         for t in data:
@@ -197,11 +217,12 @@ class Model():
     def get_II(self):
         return self.inverted_index
     
-    def retrieve_documents(self, claim, retrieve_num=5):
+    def retrieve_documents(self, claim, retrieve_num=5,poynter=True):
         retrieved_text=[]
         retrieved_urls=[]
         article_ids=list(self.parse_tfidf_query(claim))[0:retrieve_num]
         for i in article_ids:
-            retrieved_text.append(self.text_t[i])
-            retrieved_urls.append(self.url_mapping[i])
+            if poynter:
+                retrieved_text.append(self.text_poynter_t[i])
+                retrieved_urls.append(self.poynter_url_mapping[i])
         return retrieved_text, retrieved_urls
