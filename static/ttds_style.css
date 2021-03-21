@@ -319,10 +319,11 @@ color:#55acee
 .listDetails span {
     font-size: 13px;
   }
-
-.listDetails .author {
+.listDetails .score {
+    font-size: 15px;
     color: #a6784c;
-  }
+}
+
 
 .listDetails .time {
     float: right;

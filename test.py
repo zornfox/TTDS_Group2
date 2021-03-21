@@ -26,9 +26,9 @@ def result(inp):
     page_size = request.args.get('pageSize', 5, type=int)
     out="hello"
     articles, articles_urls, score=m.retrieve_documents(inp,10)
-    src100=np.round(score,2)*100
+    src100=score*100
     #combine all the data we need into a set
-    articles_datas=np.vstack((articles,articles_urls,src100)).T
+    articles_datas=np.vstack((articles,articles_urls,np.round(src100,2))).T
     found=True
     if articles==[]:
         found=False
