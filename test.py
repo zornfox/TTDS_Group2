@@ -24,7 +24,6 @@ def home():
 def result(inp):
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
-    out="hello"
     articles, articles_urls, score=m.retrieve_documents(inp,10)
     src100=score*100
     #combine all the data we need into a set
