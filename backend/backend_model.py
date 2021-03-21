@@ -251,4 +251,4 @@ class Model():
             retrieved_text.append(self.text_t[i])
             retrieved_urls.append(self.url_mapping[i])
         retrieved_scores.append(a)
-        return retrieved_text, retrieved_urls, a
+        return retrieved_text, retrieved_urls, a[0:retrieve_num]
