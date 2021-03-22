@@ -38,9 +38,9 @@ def result(inp):
         if text!="":
             return redirect(url_for("result", inp=text))
         else:
-            return render_template("result.html", pagination=pagination,out=out,input=inp, found=found)
+            return render_template("result.html", pagination=pagination,input=inp, found=found)
     else:
-        return render_template("result.html",pagination=pagination,out=out,input=inp, found=found)
+        return render_template("result.html",pagination=pagination,input=inp, found=found)
 
 
 
