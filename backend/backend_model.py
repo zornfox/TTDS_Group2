@@ -19,7 +19,7 @@ from numpy.linalg import norm
 class Model():
     def __init__(self):
         self.stop_word_path="englishST.txt"
-        self.poynter_data_path="data/poynter_claim_explanation_url.csv"
+        self.poynter_data_path="data/poynter_claim_explanation_url_region.csv"
         self.cord19_data_path="data/cord19.csv"
 
         self.covid_w2v_path = "models/model.bin"
@@ -76,11 +76,12 @@ class Model():
         poynter_df=pd.read_csv(self.poynter_data_path).iloc[:,1:]
         cord19_df=pd.read_csv(self.cord19_data_path).iloc[:,1:]
 
-        poynter_df=poynter_df.drop_duplicates()
+        poynter_df=poynter_df.drop_duplicates(subset='claim_explanation', keep="first")
         # index=poynter_df.duplicated()
         # print(poynter_df[index])
         poynter=list(poynter_df["claim_explanation"].values)
         data_urls=list(poynter_df["reference_url"].values)
+        data_regions=list(poynter_df["region"])
 
         cord19=list(cord19_df["0"].values)
 
@@ -98,13 +99,15 @@ class Model():
                 continue
             preprocessed_data.append(self.preprocess(t))
             self.text_t.append(t)
-            data_urls.append(None)
             self.sources.append("cord19")
+            data_urls.append(None)
+            data_regions.append(None)
         
 
 
         data=dict(list(zip(range(len(preprocessed_data)),preprocessed_data)))
         self.url_mapping=dict(list(zip(range(len(preprocessed_data)),data_urls)))
+        self.region_mapping=dict(list(zip(range(len(preprocessed_data)),data_regions)))
         self.data=data
 
         # self.covid_model = Word2Vec.load(self.covid_w2v_path)
@@ -239,16 +242,16 @@ class Model():
     def get_II(self):
         return self.inverted_index
     
-    def retrieve_documents(self, claim, retrieve_num=5):
+    def retrieve_documents(self, claim, retrieve_num=5,dataset="poynter"):
         retrieved_text=[]
         retrieved_urls=[]
-        retrieved_scores=[]
-        a=self.parse_tfidf_query(claim)
-        article_ids=list(a)[0:retrieve_num]
-        a=np.array(list(a.values()))
-        a /= np.max(a)
+        retrieved_regions=[]
+        retrieved_docs=self.parse_tfidf_query(claim,dataset=dataset)
+        article_ids=list(retrieved_docs)[0:retrieve_num]
+        retrieved_scores=np.array(list(retrieved_docs.values()))
+        retrieved_scores /= np.max(retrieved_scores)
         for i in article_ids:
             retrieved_text.append(self.text_t[i])
             retrieved_urls.append(self.url_mapping[i])
-        retrieved_scores.append(a)
-        return retrieved_text, retrieved_urls, a
+            retrieved_regions.append(self.region_mapping[i])
+        return retrieved_text, retrieved_urls, retrieved_scores, retrieved_regions
