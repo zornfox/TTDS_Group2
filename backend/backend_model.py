@@ -246,7 +246,10 @@ class Model():
         a=self.parse_tfidf_query(claim)
         article_ids=list(a)[0:retrieve_num]
         a=np.array(list(a.values()))
-        a /= np.max(a)
+        if a!=[]:
+            a /= np.max(a)
+        else:
+            a=[]
         for i in article_ids:
             retrieved_text.append(self.text_t[i])
             retrieved_urls.append(self.url_mapping[i])
