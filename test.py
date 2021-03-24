@@ -24,7 +24,7 @@ def home():
 def result(inp):
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
-    articles, articles_urls, score, region=m.retrieve_documents(inp,"poynter")
+    articles, articles_urls, score, region=m.retrieve_documents(inp,10,"poynter")
     src100=np.array(score)*100
     #combine all the data we need into a set
     articles_datas=np.vstack((articles,articles_urls,np.round(src100,2),region)).T
