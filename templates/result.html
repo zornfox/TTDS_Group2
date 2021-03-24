@@ -32,7 +32,7 @@
 
                 <ul class="menuList">
                     
-                    {% for txt,url,src in pagination.items %}
+                    {% for txt,url,src,region in pagination.items %}
                         <li class="clearfix">
                             <div class="listDetails">
                                     <h2><b>#</b></h2>
@@ -44,7 +44,7 @@
                                     <p class="score">
                                         Similarity: {{src}}%
                                     </p>
-                                    <span class="time">#</span>
+                                    <span class="time">{{region}}</span>
                             </div>
                         </li>
                     {% endfor %}
