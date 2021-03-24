@@ -24,11 +24,6 @@ for i in range(5):
     text=articles_text[i]
     url=articles_urls[i]
     score=scores[i]
-<<<<<<< HEAD
-    print(text,url,score)
-    print("-"*10)
-=======
     region=regions[i]
     print(text,url,score,region)
     print("-"*10)
->>>>>>> backend

@@ -245,29 +245,17 @@ class Model():
     def retrieve_documents(self, claim, retrieve_num=5,dataset="poynter"):
         retrieved_text=[]
         retrieved_urls=[]
-<<<<<<< HEAD
-        retrieved_scores=[]
-        a=self.parse_tfidf_query(claim)
-        article_ids=list(a)[0:retrieve_num]
-        a=np.array(list(a.values()))
-        if a!=[]:
-            a /= np.max(a)
-        else:
-            a=[]
-        for i in article_ids:
-            retrieved_text.append(self.text_t[i])
-            retrieved_urls.append(self.url_mapping[i])
-        retrieved_scores.append(a)
-        return retrieved_text, retrieved_urls, a[0:retrieve_num]
-=======
         retrieved_regions=[]
         retrieved_docs=self.parse_tfidf_query(claim,dataset=dataset)
         article_ids=list(retrieved_docs)[0:retrieve_num]
         retrieved_scores=np.array(list(retrieved_docs.values()))
-        retrieved_scores /= np.max(retrieved_scores)
+        if retrieved_scores!=[]:
+            retrieved_scores /= np.max(retrieved_scores)
+            retrieved_scores=retrieved_scores[0:retrieve_num]
+        else:
+            retrieved_scores=[]
         for i in article_ids:
             retrieved_text.append(self.text_t[i])
             retrieved_urls.append(self.url_mapping[i])
             retrieved_regions.append(self.region_mapping[i])
         return retrieved_text, retrieved_urls, retrieved_scores, retrieved_regions
->>>>>>> backend
