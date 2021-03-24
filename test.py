@@ -24,10 +24,10 @@ def home():
 def result(inp):
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
-    out="hello"
-    articles, articles_urls=m.retrieve_documents(inp,100)
+    articles, articles_urls, score=m.retrieve_documents(inp,10)
+    src100=np.array(score)*100
     #combine all the data we need into a set
-    articles_datas=np.vstack((articles,articles_urls)).T
+    articles_datas=np.vstack((articles,articles_urls,np.round(src100,2))).T
     found=True
     if articles==[]:
         found=False
@@ -38,9 +38,9 @@ def result(inp):
         if text!="":
             return redirect(url_for("result", inp=text))
         else:
-            return render_template("result.html", pagination=pagination,out=out,input=inp, found=found)
+            return render_template("result.html", pagination=pagination,input=inp, found=found)
     else:
-        return render_template("result.html",pagination=pagination,out=out,input=inp, found=found)
+        return render_template("result.html",pagination=pagination,input=inp, found=found)
 
 
 

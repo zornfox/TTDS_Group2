@@ -193,11 +193,11 @@ p{
     position: relative;
     width: auto;
     height: auto;
-    border-radius: 50px;
+    border-radius: 10px;
     margin-left: 30px;
     margin-bottom: 30px;
 
-    border: 1px solid black;
+    border: 1px solid #424242;
 }
 .menuTypeList .boxcontainer:hover{
 
@@ -274,6 +274,7 @@ color:#55acee
 .menuList li {
     border: 1px solid #e8e8e8;
     list-style: none;
+    border-radius: 15px;
   }
 
 /* .menuList li .listImg {
@@ -318,10 +319,11 @@ color:#55acee
 .listDetails span {
     font-size: 13px;
   }
-
-.listDetails .author {
+.listDetails .score {
+    font-size: 15px;
     color: #a6784c;
-  }
+}
+
 
 .listDetails .time {
     float: right;

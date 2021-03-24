@@ -1,47 +1,20 @@
 {% extends "layout.html" %}
 
 {% block head %}
-
+    <title>TTDS Group 2 Search</title>
 {% endblock %}
 
 {% block content %}
     <!-- Header Image -->
     <div class="header-image"></div>
 
-    <!-- NavBar -->
-    <div class="fixed-top">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{{url_for('home')}}">TTDS Project (Group 2)</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{url_for('home')}}">Home</a>  
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=#>About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=#>Help</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=#>Contact</a>
-                        </li> 
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
 
     <!-- Main Search Button-->
     <div class="container">
         <div id="bd">
             <form action="#" method="POST">
                 <div class="search-box">
-                    <input class="search-txt" type="text" name="txt" placeholder="Type search">
+                    <input class="search-txt" type="text" name="txt" placeholder="Search">
                     <button type="submit" class="search-btn">
                         <i class="fas fa-search"></i>
                     </button>
@@ -55,7 +28,7 @@
 
     
     <div class="main"> 
-        <h1>Toy Social Media Extension</h1>
+        <!--<h1>Toy Social Media Extension</h1>-->
         {% for i in twitter_data %}
         <section>
             <!--should be read the the post from the txt.file or other format text file-->
