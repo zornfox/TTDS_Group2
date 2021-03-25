@@ -19,8 +19,8 @@ from numpy.linalg import norm
 class Model():
     def __init__(self):
         self.stop_word_path="englishST.txt"
-        self.poynter_data_path="data/poynter_claim_explanation_url_region.csv"
-        self.cord19_data_path="data/cord19.csv"
+        self.poynter_data_path="data/poynter_title_url_region.csv"
+        self.cord19_data_path="data/cord19_titles.csv"
 
         self.covid_w2v_path = "models/model.bin"
         self.all_w2v_path = "models/all_model.bin"
@@ -76,32 +76,44 @@ class Model():
         poynter_df=pd.read_csv(self.poynter_data_path).iloc[:,1:]
         cord19_df=pd.read_csv(self.cord19_data_path).iloc[:,1:]
 
-        poynter_df=poynter_df.drop_duplicates(subset='claim_explanation', keep="first")
+        poynter_df=poynter_df.drop_duplicates(subset='content', keep="first")
         # index=poynter_df.duplicated()
         # print(poynter_df[index])
-        poynter=list(poynter_df["claim_explanation"].values)
+        poynter=list(poynter_df["content"]+" "+poynter_df["explanation"])
         data_urls=list(poynter_df["reference_url"].values)
         data_regions=list(poynter_df["region"])
+        titles=list(poynter_df["content"])
+        content=list(poynter_df["explanation"])
 
-        cord19=list(cord19_df["0"].values)
+        cord19_titles=list(cord19_df["title"].values)
+        cord19_text=list(cord19_df["abstract"].values)
 
         self.sources=[]
         # Preprocess data
         preprocessed_data=[]
         self.text_t=[]
+        self.titles=[]
+        i=0
         for t in poynter:
             preprocessed_data.append(self.preprocess(t))
-            self.text_t.append(t)
+            self.text_t.append(content[i])
+            self.titles.append(titles[i])
             self.sources.append("poynter")
+            i+=1
         
-        for t in cord19:
+        i=0
+        for t in cord19_text:
             if (type(t)==float):
+                i+=1
                 continue
             preprocessed_data.append(self.preprocess(t))
             self.text_t.append(t)
             self.sources.append("cord19")
             data_urls.append(None)
             data_regions.append(None)
+            self.titles.append(cord19_titles[i])
+            i+=1
+            
         
 
 
@@ -246,6 +258,7 @@ class Model():
         retrieved_text=[]
         retrieved_urls=[]
         retrieved_regions=[]
+        retrieved_titles=[]
         retrieved_docs=self.parse_tfidf_query(claim,dataset=dataset)
         article_ids=list(retrieved_docs)[0:retrieve_num]
         retrieved_scores=np.array(list(retrieved_docs.values()))
@@ -258,4 +271,5 @@ class Model():
             retrieved_text.append(self.text_t[i])
             retrieved_urls.append(self.url_mapping[i])
             retrieved_regions.append(self.region_mapping[i])
-        return retrieved_text, retrieved_urls, retrieved_scores, retrieved_regions
+            retrieved_titles.append(self.titles[i])
+        return retrieved_text, retrieved_urls, retrieved_scores, retrieved_regions,retrieved_titles
