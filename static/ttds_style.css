@@ -299,13 +299,13 @@ color:#55acee
 
 .listDetails h2 {
     font-size: 20px;
+    padding-left: 5px;
     margin-bottom: 5px;
   }
 
 .listDetails a {
   margin-bottom: 5px;
   font-size: 18px;
-  text-decoration: none;
   color: black;
 }
 .listDetails a:hover {
