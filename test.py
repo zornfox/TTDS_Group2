@@ -27,7 +27,7 @@ def result(inp):
     articles, articles_urls, score, region, titles=m.retrieve_documents(inp,10,"poynter")
     src100=np.array(score)*100
     #combine all the data we need into a set
-    articles_datas=np.vstack((articles,articles_urls,np.round(src100,2),region,region, titles)).T
+    articles_datas=np.vstack((articles,articles_urls,np.round(src100,2),region,titles)).T
     found=True
     if articles==[]:
         found=False
