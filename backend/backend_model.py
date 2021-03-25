@@ -76,13 +76,13 @@ class Model():
         poynter_df=pd.read_csv(self.poynter_data_path).iloc[:,1:]
         cord19_df=pd.read_csv(self.cord19_data_path).iloc[:,1:]
 
-        poynter_df=poynter_df.drop_duplicates(subset='content', keep="first")
+        poynter_df=poynter_df.drop_duplicates(subset='claim', keep="first")
         # index=poynter_df.duplicated()
         # print(poynter_df[index])
-        poynter=list(poynter_df["content"]+" "+poynter_df["explanation"])
+        poynter=list(poynter_df["claim"]+" "+poynter_df["explanation"])
         data_urls=list(poynter_df["reference_url"].values)
         data_regions=list(poynter_df["region"])
-        titles=list(poynter_df["content"])
+        titles=list(poynter_df["claim"])
         content=list(poynter_df["explanation"])
 
         cord19_titles=list(cord19_df["title"].values)
