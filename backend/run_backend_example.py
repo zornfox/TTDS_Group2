@@ -12,7 +12,7 @@ claim="donald trump plans social media comeback"
 # articles_text, articles_urls,scores,regions=m.retrieve_documents(claim)
 
 # Specify dataset for retrieval from poynter
-articles_text, articles_urls,scores,regions=m.retrieve_documents(claim, dataset="poynter")
+articles_text, articles_urls,scores,regions,titles=m.retrieve_documents(claim, dataset="poynter")
 
 # Specify dataset for retrieval from research papers
 # articles_text, articles_urls,scores,regions=m.retrieve_documents(claim, dataset="cord19")
@@ -25,5 +25,6 @@ for i in range(5):
     url=articles_urls[i]
     score=scores[i]
     region=regions[i]
-    print(text,url,score,region)
+    title=titles[i]
+    print(title,text,url,score,region)
     print("-"*10)
