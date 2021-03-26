@@ -18,12 +18,12 @@ from numpy.linalg import norm
 
 class Model():
     def __init__(self):
-        self.stop_word_path="englishST.txt"
-        self.poynter_data_path="data/poynter_title_url_region.csv"
-        self.cord19_data_path="data/cord19_titles.csv"
+        self.stop_word_path="backend/englishST.txt"
+        self.poynter_data_path="backend/data/poynter_title_url_region.csv"
+        self.cord19_data_path="backend/data/cord19_titles.csv"
 
-        self.covid_w2v_path = "models/model.bin"
-        self.all_w2v_path = "models/all_model.bin"
+        self.covid_w2v_path = "backend/models/model.bin"
+        self.all_w2v_path = "backend/models/all_model.bin"
 
         # read stop words from file
         with open(self.stop_word_path, "r") as f:
