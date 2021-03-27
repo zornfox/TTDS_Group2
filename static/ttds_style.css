@@ -244,7 +244,9 @@ color:#55acee
 .menuTypeList .searchtxt:focus{
   outline: none;
 }
-
+.menuTypeList .searchbtn :focus, .clear:focus, button:focus {
+  box-shadow: none;
+}
 .menuTypeList .finalresult {
   position: relative;
   font-size: 20px;
