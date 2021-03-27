@@ -30,11 +30,11 @@ def home():
 
 @app.route("/<inp>/<datatype>", methods=["POST","GET"])
 def result(inp,datatype):
-    print(inp)
+    print("Search for: "+inp)
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
-    print('dataset',datatype)
-    articles, articles_urls, score, region,titles=m.retrieve_documents(inp,10,datatype)
+    print('Using dataset',datatype)
+    articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype)
     src100=np.array(score)*100
     #combine all the data we need into a set
     articles_datas=np.vstack((articles,articles_urls,np.round(src100,2),region,titles)).T
@@ -43,11 +43,11 @@ def result(inp,datatype):
         found=False
     pagination = Pagination(page_no, articles_datas, page_size=page_size)
     if request.method =="POST":
-        datasetAgain  = request.form.get("dataset", type=str)
+        currDataset  = request.form.get("dataset", type=str)
         text = request.form["txt"]
         #if the input is empty, stay on the same page
         if text!="":
-            return redirect(url_for("result", inp=text, datatype=datasetAgain))
+            return redirect(url_for("result", inp=text, datatype=currDataset))
         else:
             return render_template("result.html", pagination=pagination,input=inp, found=found, dataset=datatype)
     else:
