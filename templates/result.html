@@ -54,10 +54,10 @@
                         <li class="clearfix">
                             <div class="listDetails">
                                     
-                                {% if url !="" %}
+                                {% if url != None %}
                                     <h2><a class="surplus" href={{url}} target="_blank">{{titles}}</a></h2>
                                 {% else %}
-                                <h2><a class="surplus" href="https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={{titles}}" target="_blank">{{titles}}</a></h2>
+                                    <h2><a class="surplus" href="https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={{titles}}" target="_blank">{{titles}}</a></h2>
                                 {% endif %}
                                 <!--redirect to the orginal url on a new page when user click the text-->
                                 

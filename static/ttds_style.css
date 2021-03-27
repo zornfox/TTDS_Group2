@@ -92,68 +92,14 @@ footer {
   font-size: 14px;
   text-align: center;
 }
-.main{
-  position: relative;
-  margin-top: 20px;
-  margin-bottom: 50px;
-  color:white;
-  background-color: #424242;
 
-}
-.main h1{
-  margin-top: 20px;
-  margin-left: 10%;
-  margin-bottom: 20px;
-}
-section{
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-bottom: 15px;
-  position: relative;
-  background-color: #2f3640;
-  padding: 5px 5px;
-  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.5);
-}
-section:hover{
-  transform: translate(5px,-5px);
-  box-shadow: -10px 10px 10px rgba(0, 0, 0, 0.5);
-}
 p{
   padding: 5px 5px;
   position: relative;
   margin-bottom: 0;
 }
-.main section ul {
-  margin-bottom: 0;
-  padding-right: 0;
-}
-.main section ul li{
-  display: inline;
-  padding: 0px 50px;
 
-}
-.main section ul li a{
-  text-decoration: none;
-  color: white;
-}
-.main section ul li i{
-  margin-right: 10px;
-}
-.main section ul li a:hover{
-  color: #55acee;
-}
-.main section ul li input{
-  -webkit-appearance: none;
-  visibility: hidden;
-  display: none;
-}
-.main section ul li input:checked ~ i{
-  color: #fe025b;
-}
-.main section ul li label:hover{
-  color: #fe025b;
-}
+
 
 .search input{
   margin-left: 30px;
@@ -208,12 +154,11 @@ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 width:auto;
 height:45px;
 vertical-align: center;
-padding: 0px 10px;
 
 }
 .menuTypeList .searchtxt{
 /*width:90%;*/
-width:66%;
+width:75%;
 height:100%;
 border:none;
 /*padding: 0px 10px;*/
@@ -248,19 +193,10 @@ outline: none;
   background-color:#55acee;
   cursor: pointer;  
 }
-.menuTypeList button:focus {
+
+.menuTypeList button:focus, .searchbtn :focus, .clear:focus{
   box-shadow: none;
-}
-
-.menuTypeList .finalresult {
-position: relative;
-font-size: 20px;
-padding-left:40px;
-margin-bottom:10px;
-text-align: left;
-color:#424242;
-
-}
+  }
 
 
 .typeSwitch {
