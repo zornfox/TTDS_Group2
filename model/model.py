@@ -186,7 +186,7 @@ class Model():
             retrieved_scores /= np.max(retrieved_scores)
             retrieved_scores=retrieved_scores[0:retrieve_num]
         else:
-            retrieved_scores=[]
+            retrieved_scores=1
         for i in article_ids:
             retrieved_text.append(self.text_t[i])
             retrieved_urls.append(self.url_mapping[i])

@@ -36,20 +36,20 @@ def result(inp,datatype):
     print('Using dataset',datatype)
     articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype)
     src100=np.array(score)*100
-    #combine all the data we need into a set
-    articles_datas=np.vstack((articles,articles_urls,np.round(src100,2),region,titles)).T
     found=True
     if articles==[]:
         found=False
+        src100=[]
+    #combine all the data we need into a set
+    articles_datas=np.vstack((articles,articles_urls,np.round(src100,2),region,titles)).T
+
     pagination = Pagination(page_no, articles_datas, page_size=page_size)
     if request.method =="POST":
         currDataset  = request.form.get("dataset", type=str)
         text = request.form["txt"]
         #if the input is empty, stay on the same page
-        if text!="":
-            return redirect(url_for("result", inp=text, datatype=currDataset))
-        else:
-            return render_template("result.html", pagination=pagination,input=inp, found=found, dataset=datatype)
+
+        return redirect(url_for("result", inp=text, datatype=currDataset))
     else:
         return render_template("result.html",pagination=pagination,input=inp, found=found, dataset=datatype)
 

@@ -11,7 +11,7 @@
             <div class="boxcontainer">
                 <form action="#" method="POST" id="searchForm">
                     <div class="searchbox">
-
+                        
                         <input type="hidden" id="dataset" name="dataset" value={{dataset}}>
                         <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
                         float: left; ">
@@ -24,13 +24,15 @@
                             {% endif %}
                             <span class="caret"></span>
                         </button>
+                    
                         <ul class="dropdown-menu">
                             <li  onclick="selection('poynter')" style="padding: 10px 10px;">From Poynter</li>
                             <li  onclick="selection('cord19')" style="padding: 10px 10px;">From Research Papers</li>
                             <li  onclick="selection('all')" style="padding: 10px 10px;">From All</li>
                         </ul>
+                    
 
-                        <input class="searchtxt" id="searchbar" type="text" name="txt" placeholder="Search" value="{{input}}">
+                        <input class="searchtxt" id="searchbar" type="text" name="txt" placeholder="Search" value="{{input}}" required>
                         <button type="submit" class="searchbtn">
                             <i class="fas fa-search"></i>
                         </button>
