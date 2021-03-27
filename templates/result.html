@@ -9,37 +9,55 @@
     <div class="contentBox">
         <div class="menuTypeList">
             <div class="boxcontainer">
-                <form action="#" method="POST">
-                    <div class="searchbox">
-                        <input class="searchtxt" id="searchbar" type="text" name="txt" placeholder="Search" value="{{input}}">
-                        <button type="submit" class="searchbtn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                        <button type="button" onclick="clearThis()" class="clear">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
+                <form action="#" method="POST" id="searchForm">
+                <div class="searchbox">
 
+                    <input type="hidden" id="dataset" name="dataset" value={{dataset}}>
+                    <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
+                    float: left; ">
+                        {% if dataset == 'poynter' %}
+                            From Poynter
+                        {% elif   dataset == 'cord19'%}
+                                From Research Papers
+                        {% else %}
+                            From All
+                        {% endif %}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" style="padding: 10px 10px;">
+                        <li  onclick="selection('poynter')">From Poynter</li>
+                        <li  onclick="selection('cord19')">From Research Papers</li>
+                        <li  onclick="selection('all')">From All</li>
+                    </ul>
+
+                    <input class="searchtxt" id="searchbar" type="text" name="txt" placeholder="Search" value="{{input}}">
+                    <button type="submit" class="searchbtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button type="button" onclick="clearThis()" class="clear">
+                        <i class="fas fa-times"></i>
+                    </button>
+
+                </div>
                 </form>
-              
             </div>
 
 
-            
+
             {%if not found%}
                 <h1 class="finalresult">No results was found for "{{input}}".</h1>
             {% else %}
 
                 <ul class="menuList">
-                    
+
                     {% for txt,url,src,region,titles in pagination.items %}
                         <li class="clearfix">
                             <div class="listDetails">
                                     
                                 {% if url !="" %}
-                                    <h2><a class="surplus" href={{url}} target="_blank">{{titles}}}</a></h2>
+                                    <h2><a class="surplus" href={{url}} target="_blank">{{titles}}</a></h2>
                                 {% else %}
-                                    <h2>{{titles}}}</h2>
+                                    <h2>{{titles}}</h2>
                                 {% endif %}
                                 <!--redirect to the orginal url on a new page when user click the text-->
                                 
@@ -54,7 +72,7 @@
                             </div>
                         </li>
                     {% endfor %}
-    
+
                 </ul>
                 <div class="paging">
                     {% if pagination.has_prev  %}
@@ -74,7 +92,7 @@
                     {% endif %}
                     <span>Displaying {{(pagination.page-1)*pagination.page_size + 1}}  to {{pagination.page*pagination.page_size}} of {{pagination.total}} items</span>
                 </div>
-            
+
             {% endif%}
 
         </div>

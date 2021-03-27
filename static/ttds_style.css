@@ -212,16 +212,18 @@ p{
 
 }
 .menuTypeList .searchtxt{
-  width:90%;
+  /*width:90%;*/
+  width:66%;
   height:100%;
   border:none;
-  padding: 0px 10px;
+  /*padding: 0px 10px;*/
+  padding: 5px 10px;
   color:#424242;
   display: flex;
   font-size: 18pt;
-  border-radius: 50px;
   display: inline-block !important;
 }
+
 .menuTypeList .clear,.searchbtn{
   float: right;
   color:black;
@@ -298,8 +300,8 @@ color:#55acee
   }
 
 .listDetails h2 {
+    padding-left:5px;
     font-size: 20px;
-    padding-left: 5px;
     margin-bottom: 5px;
   }
 

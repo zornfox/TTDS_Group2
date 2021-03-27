@@ -1,4 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request
+import pandas as pd
 import numpy as np
 from backend import backend_model
 app = Flask(__name__)
@@ -23,10 +24,12 @@ def home():
 def result(inp):
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
-    articles, articles_urls, score, region, titles=m.retrieve_documents(inp,10,"poynter")
+    dataset = request.form.get("dataset", type=str, default='all')
+    print('dataset',dataset)
+    articles, articles_urls, score, region=m.retrieve_documents(inp,10,dataset)
     src100=np.array(score)*100
     #combine all the data we need into a set
-    articles_datas=np.vstack((articles,articles_urls,np.round(src100,2),region,titles)).T
+    articles_datas=np.vstack((articles,articles_urls,np.round(src100,2),region)).T
     found=True
     if articles==[]:
         found=False
@@ -34,12 +37,12 @@ def result(inp):
     if request.method =="POST":
         text = request.form["txt"]
         #if the input is empty, stay on the same page
-        if text!="":
+        if text=="":
             return redirect(url_for("result", inp=text))
         else:
-            return render_template("result.html", pagination=pagination,input=inp, found=found)
+            return render_template("result.html", pagination=pagination,input=inp, found=found,dataset=dataset)
     else:
-        return render_template("result.html",pagination=pagination,input=inp, found=found)
+        return render_template("result.html",pagination=pagination,input=inp, found=found,dataset=dataset)
 
 
 
