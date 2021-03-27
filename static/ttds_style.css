@@ -197,7 +197,14 @@ outline: none;
 .menuTypeList button:focus, .searchbtn :focus, .clear:focus{
   box-shadow: none;
   }
-
+.menuTypeList .finalresult {
+    position: relative;
+    font-size: 20px;
+    padding-left:40px;
+    margin-bottom:10px;
+    text-align: left;
+    color:#424242;
+  }
 
 .typeSwitch {
   margin-bottom: 38px;
