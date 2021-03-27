@@ -45,7 +45,7 @@ def result(inp):
     if request.method =="POST":
         text = request.form["txt"]
         #if the input is empty, stay on the same page
-        if text=="":
+        if text!="":
             return redirect(url_for("result", inp=text))
         else:
             return render_template("result.html", pagination=pagination,input=inp, found=found,dataset=dataset)
