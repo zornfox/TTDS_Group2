@@ -48,7 +48,8 @@ def result(inp,datatype):
         currDataset  = request.form.get("dataset", type=str)
         text = request.form["txt"]
         #if the input is empty, stay on the same page
-
+        if text=="":
+            text=" "
         return redirect(url_for("result", inp=text, datatype=currDataset))
     else:
         return render_template("result.html",pagination=pagination,input=inp, found=found, dataset=datatype)
