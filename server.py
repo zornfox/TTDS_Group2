@@ -22,19 +22,19 @@ logger.info("Load model use time: %.2f second" % (time.time() - start_time))
 def home():
     if request.method == "POST":
         text = request.form["txt"]
-        return redirect(url_for("result", inp=text))
+        return redirect(url_for("result", inp=text, datatype="all"))
     else:
         return render_template("web.html")
 
 
 
-@app.route("/<inp>", methods=["POST","GET"])
-def result(inp):
+@app.route("/<inp>/<datatype>", methods=["POST","GET"])
+def result(inp,datatype):
+    print(inp)
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
-    dataset = request.form.get("dataset", type=str, default='all')
-    print('dataset',dataset)
-    articles, articles_urls, score, region,titles=m.retrieve_documents(inp,10,dataset)
+    print('dataset',datatype)
+    articles, articles_urls, score, region,titles=m.retrieve_documents(inp,10,datatype)
     src100=np.array(score)*100
     #combine all the data we need into a set
     articles_datas=np.vstack((articles,articles_urls,np.round(src100,2),region,titles)).T
@@ -43,14 +43,15 @@ def result(inp):
         found=False
     pagination = Pagination(page_no, articles_datas, page_size=page_size)
     if request.method =="POST":
+        datasetAgain  = request.form.get("dataset", type=str)
         text = request.form["txt"]
         #if the input is empty, stay on the same page
         if text!="":
-            return redirect(url_for("result", inp=text))
+            return redirect(url_for("result", inp=text, datatype=datasetAgain))
         else:
-            return render_template("result.html", pagination=pagination,input=inp, found=found,dataset=dataset)
+            return render_template("result.html", pagination=pagination,input=inp, found=found, dataset=datatype)
     else:
-        return render_template("result.html",pagination=pagination,input=inp, found=found,dataset=dataset)
+        return render_template("result.html",pagination=pagination,input=inp, found=found, dataset=datatype)
 
 
 class Pagination(object):

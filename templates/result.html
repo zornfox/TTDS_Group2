@@ -10,35 +10,35 @@
         <div class="menuTypeList">
             <div class="boxcontainer">
                 <form action="#" method="POST" id="searchForm">
-                <div class="searchbox">
+                    <div class="searchbox">
 
-                    <input type="hidden" id="dataset" name="dataset" value={{dataset}}>
-                    <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
-                    float: left; ">
-                        {% if dataset == 'poynter' %}
-                            From Poynter
-                        {% elif   dataset == 'cord19'%}
-                                From Research Papers
-                        {% else %}
-                            From All
-                        {% endif %}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li  onclick="selection('poynter')" style="padding: 10px 10px;">From Poynter</li>
-                        <li  onclick="selection('cord19')" style="padding: 10px 10px;">From Research Papers</li>
-                        <li  onclick="selection('all')" style="padding: 10px 10px;">From All</li>
-                    </ul>
+                        <input type="hidden" id="dataset" name="dataset" value={{dataset}}>
+                        <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
+                        float: left; ">
+                            {% if dataset == 'poynter' %}
+                                From Poynter
+                            {% elif   dataset == 'cord19'%}
+                                    From Research Papers
+                            {% else %}
+                                From All
+                            {% endif %}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li  onclick="selection('poynter')" style="padding: 10px 10px;">From Poynter</li>
+                            <li  onclick="selection('cord19')" style="padding: 10px 10px;">From Research Papers</li>
+                            <li  onclick="selection('all')" style="padding: 10px 10px;">From All</li>
+                        </ul>
 
-                    <input class="searchtxt" id="searchbar" type="text" name="txt" placeholder="Search" value="{{input}}">
-                    <button type="submit" class="searchbtn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <button type="button" onclick="clearThis()" class="clear">
-                        <i class="fas fa-times"></i>
-                    </button>
+                        <input class="searchtxt" id="searchbar" type="text" name="txt" placeholder="Search" value="{{input}}">
+                        <button type="submit" class="searchbtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button type="button" onclick="clearThis()" class="clear">
+                            <i class="fas fa-times"></i>
+                        </button>
 
-                </div>
+                    </div>
                 </form>
             </div>
 
@@ -57,7 +57,7 @@
                                 {% if url !="" %}
                                     <h2><a class="surplus" href={{url}} target="_blank">{{titles}}</a></h2>
                                 {% else %}
-                                    <h2>{{titles}}</h2>
+                                <h2><a class="surplus" href="https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={{titles}}" target="_blank">{{titles}}</a></h2>
                                 {% endif %}
                                 <!--redirect to the orginal url on a new page when user click the text-->
                                 
