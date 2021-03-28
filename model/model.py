@@ -82,7 +82,7 @@ class Model():
 
         if exists(self.save_path):
             with open( self.save_path, 'rb') as f:
-                self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.wv = pickle.load(f)
+                self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.wv= pickle.load(f)
         else:
 
             poynter_df = pd.read_csv(self.poynter_data_path).dropna().iloc[:, 1:]
@@ -117,7 +117,12 @@ class Model():
                     i+=1
                     continue
                 preprocessed_data.append(self.preprocess(t))
-                self.text_t.append(t)
+                if len(t) < 1000:
+                    self.text_t.append(t)
+                else:
+                    text=t.split(" ")
+                    reducedtext=" ".join(text[:200])
+                    self.text_t.append(reducedtext+" ...")
                 self.sources.append("cord19")
                 data_urls.append(None)
                 data_regions.append(None)

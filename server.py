@@ -39,12 +39,13 @@ def result(inp,datatype):
     print('Using dataset',datatype)
     articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype)
     src100=np.array(score)*100
+    roundsrc=np.round(src100,2)
     found=True
     if articles==[]:
         found=False
-        src100=[]
+        roundsrc=[]
     #combine all the data we need into a set
-    articles_datas=np.vstack((articles,articles_urls,np.round(src100,2),region,titles)).T
+    articles_datas=np.vstack((articles,articles_urls,roundsrc,region,titles)).T
 
     pagination = Pagination(page_no, articles_datas, page_size=page_size)
     if request.method =="POST":

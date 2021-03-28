@@ -64,10 +64,11 @@
                                 <!--redirect to the orginal url on a new page when user click the text-->
                                 
                                 <p>{{txt}}</a>
-
-                                <p class="score">
-                                    Similarity: {{src}}%
-                                </p>
+                                {% if src==100 %}
+                                    <p class="score">Similarity: 100%</p>
+                                {% else %}
+                                    <p class="score">Similarity: {{src}}%</p>
+                                {% endif %}
 
                                 <span class="time">From: {{region}}</span>
 
