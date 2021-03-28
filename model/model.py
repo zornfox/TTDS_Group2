@@ -82,7 +82,7 @@ class Model():
 
         if exists(self.save_path):
             with open( self.save_path, 'rb') as f:
-                self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles = pickle.load(f)
+                self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.wv = pickle.load(f)
         else:
 
             poynter_df = pd.read_csv(self.poynter_data_path).dropna().iloc[:, 1:]
@@ -146,7 +146,7 @@ class Model():
                 self.inverted_index = self.get_inverted_index(d, d_id)
 
             with open( self.save_path, 'wb') as f:
-                pickle.dump((self.inverted_index, self.ids, self.text_t,self.sources,self.url_mapping,self.region_mapping,self.titles), f)
+                pickle.dump((self.inverted_index, self.ids, self.text_t,self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.wv), f)
 
     def get_tf_vectors(self, t, d):
         if t not in self.w2v_model.wv.vocab:
