@@ -47,7 +47,7 @@ def result(inp,datatype):
     if request.method =="POST":
         currDataset  = request.form.get("dataset", type=str)
         text = request.form["txt"]
-        #if the input is empty, stay on the same page
+        #if the input is empty and try to change dataset, it will go to search for nothing
         if text=="":
             text=" "
         return redirect(url_for("result", inp=text, datatype=currDataset))
