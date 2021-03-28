@@ -3,7 +3,12 @@ import re
 import pandas as pd
 import numpy as np
 import pickle
-
+from gensim.models import Word2Vec, KeyedVectors
+import gensim.downloader as api
+import gensim
+from sklearn.metrics.pairwise import cosine_similarity
+from numpy import dot
+from numpy.linalg import norm
 #url
 #source
 #region
@@ -11,11 +16,13 @@ import pickle
 #
 
 class Model():
-    def __init__(self,stop_word_path,poynter_data_path,cord19_data_path,save_path):
+    def __init__(self,stop_word_path,poynter_data_path,cord19_data_path,save_path,covid_w2v_path,all_w2v_path):
         self.stop_word_path = stop_word_path
         self.poynter_data_path = poynter_data_path
         self.cord19_data_path = cord19_data_path
         self.save_path = save_path
+        self.covid_w2v_path = covid_w2v_path
+        self.all_w2v_path = all_w2v_path
 
         # read stop words from file
         with open(self.stop_word_path, "r") as f:
@@ -70,6 +77,8 @@ class Model():
         self.url_mapping = {}
         self.region_mapping = {}
         self.titles=[]
+        self.doc_text={}
+        self.wv=False
 
         if exists(self.save_path):
             with open( self.save_path, 'rb') as f:
@@ -125,18 +134,43 @@ class Model():
             # self.covid_model = Word2Vec.load(self.covid_w2v_path)
             # self.all_model = Word2Vec.load(self.all_w2v_path)
 
+            self.w2v_model=Word2Vec.load(self.covid_w2v_path)
 
-
+            # initialise inverted index
+            i=0
             # iterate over all documents
             for (d_id, d) in self.data.items():
                 self.ids.append(d_id)
+                self.doc_text[d_id]=d
                 # update inverted index using headline and text for document "cur_id"
                 self.inverted_index = self.get_inverted_index(d, d_id)
 
             with open( self.save_path, 'wb') as f:
                 pickle.dump((self.inverted_index, self.ids, self.text_t,self.sources,self.url_mapping,self.region_mapping,self.titles), f)
 
-
+    def get_tf_vectors(self, t, d):
+        if t not in self.w2v_model.wv.vocab:
+            print("hit")
+            return self.inverted_index[t][d][0]
+        threshold=0.85
+        count=0
+        # for dw in self.doc_text:
+        #     if dw=="nerf":
+        #         print(self.doc_text)
+        for dw in self.doc_text[d]:
+            if dw not in self.w2v_model.wv.vocab:
+                print("hit1")
+                continue
+            else:
+                sim=self.w2v_model.similarity(t,dw)
+                if sim>=threshold:
+                    count+=1
+                # if dist<threshold:
+                #     print("hit")
+                #     count=count+1
+        if count==0:
+            print("hit2")
+        return count
     
     def TFIDF(self,t,d):
         N=len(self.ids)
@@ -144,7 +178,38 @@ class Model():
         dft=len(self.inverted_index[t].keys())
         ldft=np.log10(N/dft)
         return (1+tft)*ldft
-        
+
+    def TFIDF_wv(self,t,d):
+        N=len(self.ids)
+        tft=np.log10(self.get_tf_vectors(t,d))
+        dft=len(self.inverted_index[t].keys())
+        ldft=np.log10(N/dft)
+        return (1+tft)*ldft
+
+    def w2v(self, terms):
+        cos_scores={}
+        t_vec = np.sum([self.w2v_model[t] for t in terms],axis=0)/len(terms)
+        for d in self.ids:
+            d_text=self.doc_text[d]
+            d_vec=np.zeros(100)
+            i=0
+            for t in d_text:
+                if t not in self.w2v_model.wv.vocab:
+                    continue
+                d_vec=d_vec+self.w2v_model[t]
+                i=i+1
+                
+            d_vec = d_vec/i
+            cos_sim = dot(t_vec, d_vec)/(norm(t_vec)*norm(d_vec))
+            cos_scores[d]=cos_sim
+        return cos_scores   
+
+    def query_w2v(self,q):
+        terms=self.tokenize(q)
+        terms=self.remove_stop(terms)
+        x=self.w2v(terms)
+        return dict(sorted(x.items(), key=lambda item: item[1], reverse=True))
+            
     def get_docs_with_terms(self,terms,dataset):
         docs=[]
         for t in terms:
@@ -157,9 +222,19 @@ class Model():
         return docs
 
     def parse_tfidf_query(self,q,wv=False,dataset="poynter"):
-        weighted_docs = {}
-        terms = self.preprocess(q)
-        docs = self.get_docs_with_terms(terms, dataset)
+        # if wv:
+        #     self.w2v_model=w2v_model
+        weighted_docs={}
+        self.wv=wv
+        terms=self.preprocess(q)
+
+        if wv:
+            docs=[]
+            for i in self.ids:
+                 if self.sources[i]==dataset or dataset=="all":
+                     docs.append(i)
+        else:
+            docs=self.get_docs_with_terms(terms,dataset)
         for d in docs:
             cur_w=0
             for t in terms:
@@ -169,11 +244,23 @@ class Model():
                 if self.inverted_index[t].get(d)==None:
                     continue
                 else:
-                    cur_w = cur_w + self.TFIDF(t, d)
+                    # compute the TFIDF for term t and document d
+                    if (self.wv==True):
+                        cur_w=cur_w+self.TFIDF_wv(t,d)
+                    else:
+                        cur_w=cur_w+self.TFIDF(t,d)
             weighted_docs[d]=cur_w
         sorted_docs = {k: v for k, v in sorted(weighted_docs.items(), key=lambda item: item[1], reverse = True)}
         return sorted_docs
-    
+
+    ########## unused ##########
+    def get_II(self):
+        return self.inverted_index
+    ############################
+
+
+
+
     def retrieve_documents(self, claim, retrieve_num=5,dataset="poynter"):
         retrieved_text=[]
         retrieved_urls=[]

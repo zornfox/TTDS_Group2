@@ -10,9 +10,12 @@ stop_word_path = 'data/englishST.txt'
 poynter_data_path = 'data/poynter_title_url_region.csv'
 cord19_data_path = 'data/cord19_titles.csv'
 save_path = 'data/model.pickle'
+covid_w2v_path = "data/models/model.bin"
+all_w2v_path = "data/models/all_model.bin"
+
 logger.info('Loading model ...')
 start_time = time.time()
-m = Model(stop_word_path, poynter_data_path, cord19_data_path, save_path)
+m = Model(stop_word_path, poynter_data_path, cord19_data_path, save_path,covid_w2v_path,all_w2v_path)
 m.prepare_model()
 logger.info("Load model use time: %.2f second" % (time.time() - start_time))
 # --------
