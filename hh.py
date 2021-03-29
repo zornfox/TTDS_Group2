@@ -13,10 +13,9 @@ storage_client = storage.Client()
 bucket_name = "coviddocs"
 # Creates the new bucket
 bucket = storage_client.bucket(bucket_name)
-filename = "mode.pickle"
+filename = "model.pickle"
 print("Bucket {} created.".format(bucket.name))
 blob= bucket.blob(filename)
-
 
 
 inverted_index = {}
@@ -29,7 +28,7 @@ titles=[]
 doc_text={}
 wv=False
 if(blob!=None):
-    with blob.open("rb") as f:
+    with open(blob,"rb") as f:
         inverted_index, ids, text_t, sources,url_mapping,region_mapping,titles,doc_text,wv= pickle.load(f)
 else:
     print("pickle is not found, create now")

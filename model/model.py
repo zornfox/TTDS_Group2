@@ -99,7 +99,9 @@ class Model():
         self.wv=False
 
         if (self.blob!=None):
+        # if exists(self.save_path):
             with self.blob.open('rb') as f:
+            # with open(self.save_path,'rb') as f:
                 self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.wv= pickle.load(f)
         else:
             print("pickle is not found, create now")
@@ -272,10 +274,6 @@ class Model():
         sorted_docs = {k: v for k, v in sorted(weighted_docs.items(), key=lambda item: item[1], reverse = True)}
         return sorted_docs
 
-    ########## unused ##########
-    def get_II(self):
-        return self.inverted_index
-    ############################
 
 
 
