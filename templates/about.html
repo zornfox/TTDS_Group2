@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <title>About</title>
+{% endblock %}
+
+{% block content %}
+    <!-- Header Image -->
+    <div class="header-image"></div>
+
+
+    <!-- About text content-->
+    <div class="container">
+        <div id="bd">
+            <div class="card text-center text-white bg-dark mb-3 mt-3">
+                <div class="card-header">
+                </div>
+                <h2 class="card-title">Welcome to our Coronavirus Fake News Search Tool!</h2>
+                <p class="card-text">Social media brings communities together around the world, and its daily use has skyrocketed. As we spend more and more time browsing, commenting, 
+                    sharing, and interacting with social media posts, our consumption of news via social media snippets has become the norm. However, with greater connectivity 
+                    comes great consequences… These snippets of information are so easily accessible, quickly shared, and believable, it can often be difficult to determine 
+                    falsehood from reality.</p>
+                <p class="card-text">The current Covid-19 pandemic has also been called the “Pandemic of Fake News”, due to the fast spreading of misinformation regarding alternative “cures” 
+                    for the virus, many of which had no scientific backing, and were in fact quite dangerous methods. This is where this search engine comes in.  With this tool 
+                    you can search any covid related claim, and our system will return a clear list of scientific papers, news articles, and other relevant information to help 
+                    you to “fact-check” your claim.</p>
+                <div class="card-footer text-muted">
+                    <button type="button" href="{{url_for('showpage')}}" class="btn btn-secondary">Back to Home</button>
+                </div>    
+            </div>
+
+        </div>
+    </div>
+    
+
+{% endblock %}

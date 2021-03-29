@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <title>Contact</title>
+{% endblock %}
+
+{% block content %}
+    <!-- Header Image -->
+    <div class="header-image"></div>
+
+
+    <!-- Contact details-->
+     <div class="container">
+        <div id="bd">
+            <div class="card text-center text-white bg-dark mt-3 mb-3">
+                <div class="card-header">
+                </div>
+                <h3 class="card-title">Contact Us</h3>
+                <p class="card-text">This project was developed by students from the University of Edinburgh as part of the <a href="http://www.inf.ed.ac.uk/teaching/courses/tts/">TTDS</a> course from the School of Informatics.</p>
+            </div>
+            <div class="card text-center text-white bg-secondary mb-3">    
+                <div class="card-header">E-mail</div>
+                <p class="card-text">s1703084@sms.ed.ac.uk</p>
+            </div>
+            <div class="card text-center text-white bg-dark mb-3">
+                <div class="card-header">Front End Team</div>
+                <div class="row contact">
+                    <div class="col-md-4">
+                        <a href="https://github.com/zornfox" class="github"><i class="fa fa-github"></i>Keyi Liu</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="https://github.com/hubertzhong" class="github"><i class="fa fa-github"></i>Zhilang Zhong</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="https://github.com/ycpcds" class="github"><i class="fa fa-github"></i>Yanna Colmerauer</a>
+                    </div>
+                </div>
+                <div class="card-header">Back End Team</div>
+                <div class="row contact">
+                    <div class="col-md-4">
+                        <a href="https://github.com/BrianDCX" class="github"><i class="fa fa-github"></i>Chenxin Diao</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="https://github.com/benjikershenbaum" class="github"><i class="fa fa-github"></i>Benji Kershenbaum</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="https://github.com/shivamm09" class="github"><i class="fa fa-github"></i>Shivamm Gupta</a>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-secondary" href="{{url_for('showpage')}}">Back to Home</button>
+            </div>
+        </div>
+    </div>
+    
+
+{% endblock %}

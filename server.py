@@ -21,14 +21,26 @@ logger.info("Load model use time: %.2f second" % (time.time() - start_time))
 # --------
 
 
+#@app.route("/", methods=["POST", "GET"])
+#def home():
+#    if request.method == "POST":
+#        text = request.form["txt"]
+#        return redirect(url_for("result", inp=text, datatype="all"))
+#    else:
+#        return render_template("web.html")
+
 @app.route("/", methods=["POST", "GET"])
-def home():
+@app.route("/<page>", methods=["POST", "GET"])
+def showpage(page=None):
     if request.method == "POST":
         text = request.form["txt"]
         return redirect(url_for("result", inp=text, datatype="all"))
+    elif page:
+        # called with page parameter
+        return render_template('%s.html' % page)
     else:
+        # called without page parameter, default to home page
         return render_template("web.html")
-
 
 
 @app.route("/<inp>/<datatype>", methods=["POST","GET"])

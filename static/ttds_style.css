@@ -13,8 +13,7 @@ body{
 .header-image {
   /* Use "linear-gradient" to add a darken background effect to the image.
   This will make the text easier to read*/
-  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-  url("images/header.png");
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("images/header.png");
   
   /* Set a specific height */
   height: 50%;
@@ -25,7 +24,6 @@ body{
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-
 
 }
 
@@ -309,4 +307,32 @@ cursor: pointer;
 .paging .nextPage {
   color: #fc5a34;
 }
+
+/* styles for About and Contact pages*/
+@import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
+.fa {
+  font-size: 14px;
+  margin-right: 5px
+}
+.row-first {
+  margin-bottom: 10px;
+  margin-top: 8px
+}
+
+.a {
+  transition: all .3s ease;
+}
+
+.contact a{
+  border-radius:2px;
+  display:block;
+  background-color:rgba(255,255,255,0.25);
+  font-size: 14px;
+  text-align: center;
+  color:#fff;
+  padding: 7px
+}
+.contact a:hover{background-color:rgba(255,255,255,0.85);text-decoration:none}
+
+.contact a.github:hover, .fa-github{color:#6cc644}
 
