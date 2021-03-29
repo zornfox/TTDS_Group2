@@ -28,7 +28,7 @@ titles=[]
 doc_text={}
 wv=False
 if(blob!=None):
-    with open(blob,"rb") as f:
+    with blob.open("rb") as f:
         inverted_index, ids, text_t, sources,url_mapping,region_mapping,titles,doc_text,wv= pickle.load(f)
 else:
     print("pickle is not found, create now")
