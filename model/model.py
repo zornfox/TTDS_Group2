@@ -36,7 +36,7 @@ class Model():
         bucket_name = "coviddocs"
         # Creates the new bucket
         bucket = storage_client.bucket(bucket_name)
-        filename = "model_poynter.pickle"
+        filename = "model_short.pickle"
         print("Bucket {} created.".format(bucket.name))
         self.blob= bucket.get_blob(filename)
 
@@ -98,12 +98,12 @@ class Model():
         self.doc_text={}
 
         # loading pickle from local
-        if exists(self.save_path):
-            with open(self.save_path,'rb') as f:
+        # if exists(self.save_path):
+        #     with open(self.save_path,'rb') as f:
         
         #loading pickle from google cloud storage
-        # if (self.blob!=None):
-        #     with self.blob.open('rb') as f:
+        if (self.blob!=None):
+            with self.blob.open('rb') as f:
                 self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text= pickle.load(f)
         else:
             print("pickle is not found, create now")
