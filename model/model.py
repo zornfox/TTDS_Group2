@@ -13,7 +13,8 @@ from numpy.linalg import norm
 # Imports the Google Cloud client library
 from google.cloud import storage
 import pickle
-
+import time
+from logger import logger
 #url
 #source
 #region
@@ -37,9 +38,8 @@ class Model():
         # Creates the new bucket
         bucket = storage_client.bucket(bucket_name)
         filename = "model_short.pickle"
-        print("Bucket {} created.".format(bucket.name))
         self.blob= bucket.get_blob(filename)
-
+        print("Bucket {} created.".format(bucket.name))
 
 
         # read stop words from file
@@ -250,7 +250,9 @@ class Model():
         retrieved_regions=[]
         retrieved_titles=[]
         # wv==True, the docs will be run at w2v algorithm, otherwise tfidf
+        start_time = time.time()
         retrieved_docs=self.parse_tfidf_query(claim,wv=wv, dataset=dataset)
+        logger.info("Searching use time: %.2f second" % (time.time() - start_time))
         article_ids=list(retrieved_docs)[0:retrieve_num]
         retrieved_scores=np.array(list(retrieved_docs.values()))
         if retrieved_scores!=[]:
