@@ -96,7 +96,7 @@ class Model():
         self.region_mapping = {}
         self.titles=[]
         self.doc_text={}
-        self.wv=False
+
         # loading pickle from local
         if exists(self.save_path):
             with open(self.save_path,'rb') as f:
@@ -104,13 +104,12 @@ class Model():
         #loading pickle from google cloud storage
         # if (self.blob!=None):
         #     with self.blob.open('rb') as f:
-                self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.wv= pickle.load(f)
+                self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text= pickle.load(f)
         else:
             print("pickle is not found, create now")
             poynter_df = pd.read_csv(self.poynter_data_path).dropna().iloc[:, 1:]
             cord19_df = pd.read_csv(self.cord19_data_path).dropna().iloc[:, 1:]
-            # Load in data
-            data=[]
+
 
             poynter_df=poynter_df.drop_duplicates(subset='content', keep="first")
             poynter=list(poynter_df["content"]+" "+poynter_df["explanation"])
@@ -148,28 +147,23 @@ class Model():
                 i+=1
             
     
-
+            data=[]
             data=dict(list(zip(range(len(preprocessed_data)),preprocessed_data)))
             self.url_mapping=dict(list(zip(range(len(preprocessed_data)),data_urls)))
             self.region_mapping=dict(list(zip(range(len(preprocessed_data)),data_regions)))
-            self.data=data
-
-            # self.covid_model = Word2Vec.load(self.covid_w2v_path)
-            # self.all_model = Word2Vec.load(self.all_w2v_path)
-
-            self.w2v_model=Word2Vec.load(self.covid_w2v_path)
+            
 
             # initialise inverted index
             i=0
             # iterate over all documents
-            for (d_id, d) in self.data.items():
+            for (d_id, d) in data.items():
                 self.ids.append(d_id)
                 self.doc_text[d_id]=d
                 # update inverted index using headline and text for document "cur_id"
                 self.inverted_index = self.get_inverted_index(d, d_id)
 
             with open(self.save_path, 'wb') as f:
-                pickle.dump((self.inverted_index, self.ids, self.text_t,self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.wv), f)
+                pickle.dump((self.inverted_index, self.ids, self.text_t,self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text), f)
 
     def get_tf_vectors(self, t, d):
         if t not in self.w2v_model.wv.vocab:
@@ -177,9 +171,7 @@ class Model():
             return self.inverted_index[t][d][0]
         threshold=0.85
         count=0
-        # for dw in self.doc_text:
-        #     if dw=="nerf":
-        #         print(self.doc_text)
+
         for dw in self.doc_text[d]:
             if dw not in self.w2v_model.wv.vocab:
                 print("hit1")
@@ -188,9 +180,7 @@ class Model():
                 sim=self.w2v_model.similarity(t,dw)
                 if sim>=threshold:
                     count+=1
-                # if dist<threshold:
-                #     print("hit")
-                #     count=count+1
+
         if count==0:
             print("hit2")
         return count
@@ -209,29 +199,6 @@ class Model():
         ldft=np.log10(N/dft)
         return (1+tft)*ldft
 
-    def w2v(self, terms):
-        cos_scores={}
-        t_vec = np.sum([self.w2v_model[t] for t in terms],axis=0)/len(terms)
-        for d in self.ids:
-            d_text=self.doc_text[d]
-            d_vec=np.zeros(100)
-            i=0
-            for t in d_text:
-                if t not in self.w2v_model.wv.vocab:
-                    continue
-                d_vec=d_vec+self.w2v_model[t]
-                i=i+1
-                
-            d_vec = d_vec/i
-            cos_sim = dot(t_vec, d_vec)/(norm(t_vec)*norm(d_vec))
-            cos_scores[d]=cos_sim
-        return cos_scores   
-
-    def query_w2v(self,q):
-        terms=self.tokenize(q)
-        terms=self.remove_stop(terms)
-        x=self.w2v(terms)
-        return dict(sorted(x.items(), key=lambda item: item[1], reverse=True))
             
     def get_docs_with_terms(self,terms,dataset):
         docs=[]
@@ -245,8 +212,9 @@ class Model():
         return docs
 
     def parse_tfidf_query(self,q,wv=False,dataset="poynter"):
-        # if wv:
-        #     self.w2v_model=w2v_model
+        if wv:
+            #load model.bin
+            self.w2v_model=Word2Vec.load(self.covid_w2v_path)
         weighted_docs={}
         self.wv=wv
         terms=self.preprocess(q)
@@ -281,6 +249,7 @@ class Model():
         retrieved_urls=[]
         retrieved_regions=[]
         retrieved_titles=[]
+        # wv==True, the docs will be run at w2v algorithm, otherwise tfidf
         retrieved_docs=self.parse_tfidf_query(claim,wv=wv, dataset=dataset)
         article_ids=list(retrieved_docs)[0:retrieve_num]
         retrieved_scores=np.array(list(retrieved_docs.values()))

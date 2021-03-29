@@ -49,7 +49,10 @@ def result(inp,datatype):
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
     print('Using dataset',datatype)
-    articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype)
+    # please choose one of algorithms to run, tfidf or w2v
+    tfidf=False
+    w2v=True
+    articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype,tfidf)
     src100=np.array(score)*100
     roundsrc=np.round(src100,2)
     found=True
