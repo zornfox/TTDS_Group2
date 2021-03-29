@@ -36,7 +36,7 @@ class Model():
         bucket_name = "coviddocs"
         # Creates the new bucket
         bucket = storage_client.bucket(bucket_name)
-        filename = "model.pickle"
+        filename = "model_poynter.pickle"
         print("Bucket {} created.".format(bucket.name))
         self.blob= bucket.get_blob(filename)
 
@@ -106,7 +106,7 @@ class Model():
         else:
             print("pickle is not found, create now")
             poynter_df = pd.read_csv(self.poynter_data_path).dropna().iloc[:, 1:]
-            cord19_df = pd.read_csv(self.cord19_data_path).dropna().iloc[:, 1:]
+            # cord19_df = pd.read_csv(self.cord19_data_path).dropna().iloc[:, 1:]
             # Load in data
             data=[]
 
@@ -116,8 +116,8 @@ class Model():
             data_regions=list(poynter_df["region"])
             titles=list(poynter_df["content"])
             content=list(poynter_df["explanation"])
-            cord19_titles=list(cord19_df["title"].values)
-            cord19_text=list(cord19_df["abstract"].values)
+            # cord19_titles=list(cord19_df["title"].values)
+            # cord19_text=list(cord19_df["abstract"].values)
             
             # Preprocess data
             preprocessed_data=[]
@@ -131,19 +131,19 @@ class Model():
                 self.sources.append("poynter")
                 i+=1
             
-            i=0
-            for t in cord19_text:
-                if (type(t)==float):
-                    i+=1
-                    continue
-                preprocessed_data.append(self.preprocess(t))
+            # i=0
+            # for t in cord19_text:
+            #     if (type(t)==float):
+            #         i+=1
+            #         continue
+            #     preprocessed_data.append(self.preprocess(t))
 
-                self.text_t.append(t[:1000]+"...")
-                self.sources.append("cord19")
-                data_urls.append(None)
-                data_regions.append(None)
-                self.titles.append(cord19_titles[i])
-                i+=1
+            #     self.text_t.append(t[:1000]+"...")
+            #     self.sources.append("cord19")
+            #     data_urls.append(None)
+            #     data_regions.append(None)
+            #     self.titles.append(cord19_titles[i])
+            #     i+=1
             
     
 
