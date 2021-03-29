@@ -249,7 +249,7 @@ class Model():
         retrieved_urls=[]
         retrieved_regions=[]
         retrieved_titles=[]
-        # wv==True, the docs will be run at w2v algorithm, otherwise tfidf
+        # wv==True, the docs will be run at tfidf_w2v algorithm, otherwise tfidf
         start_time = time.time()
         retrieved_docs=self.parse_tfidf_query(claim,wv=wv, dataset=dataset)
         logger.info("Searching use time: %.2f second" % (time.time() - start_time))
