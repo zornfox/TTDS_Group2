@@ -274,16 +274,12 @@ class Model():
         sorted_docs = {k: v for k, v in sorted(weighted_docs.items(), key=lambda item: item[1], reverse = True)}
         return sorted_docs
 
-
-
-
-
-    def retrieve_documents(self, claim, retrieve_num=5,dataset="poynter"):
+    def retrieve_documents(self, claim, retrieve_num=5,dataset="poynter", wv=False):
         retrieved_text=[]
         retrieved_urls=[]
         retrieved_regions=[]
         retrieved_titles=[]
-        retrieved_docs=self.parse_tfidf_query(claim,dataset=dataset)
+        retrieved_docs=self.parse_tfidf_query(claim,wv=wv, dataset=dataset)
         article_ids=list(retrieved_docs)[0:retrieve_num]
         retrieved_scores=np.array(list(retrieved_docs.values()))
         if retrieved_scores!=[]:

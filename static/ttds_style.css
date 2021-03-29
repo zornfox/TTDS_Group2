@@ -91,6 +91,10 @@ footer {
   text-align: center;
 }
 
+.sml-foot {
+  font-size: 10px;
+}
+
 p{
   padding: 5px 5px;
   position: relative;
