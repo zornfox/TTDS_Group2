@@ -8,8 +8,8 @@ app = Flask(__name__)
 
 stop_word_path = 'data/englishST.txt'
 poynter_data_path = 'data/poynter_title_url_region.csv'
-cord19_data_path = 'data/cord19_titles.csv'
-save_path = 'data/model_poynter.pickle'
+cord19_data_path = 'data/cord19_short.csv'
+save_path = 'data/model_short.pickle'
 covid_w2v_path = "data/models/model.bin"
 all_w2v_path = "data/models/all_model.bin"
 
