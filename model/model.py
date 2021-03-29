@@ -1,4 +1,5 @@
 from os.path import exists
+import os
 import re
 import pandas as pd
 import numpy as np
@@ -9,6 +10,10 @@ import gensim
 from sklearn.metrics.pairwise import cosine_similarity
 from numpy import dot
 from numpy.linalg import norm
+# Imports the Google Cloud client library
+from google.cloud import storage
+import pickle
+
 #url
 #source
 #region
@@ -23,6 +28,19 @@ class Model():
         self.save_path = save_path
         self.covid_w2v_path = covid_w2v_path
         self.all_w2v_path = all_w2v_path
+
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="key/coviddoc-439bbe4bbf8f.json"
+        # Instantiates a client
+        storage_client = storage.Client()
+        # The name for the new bucket
+        bucket_name = "coviddocs"
+        # Creates the new bucket
+        bucket = storage_client.bucket(bucket_name)
+        filename = "model.pickle"
+        print("Bucket {} created.".format(bucket.name))
+        self.blob= bucket.get_blob(filename)
+
+
 
         # read stop words from file
         with open(self.stop_word_path, "r") as f:
@@ -80,11 +98,11 @@ class Model():
         self.doc_text={}
         self.wv=False
 
-        if exists(self.save_path):
-            with open( self.save_path, 'rb') as f:
+        if (self.blob!=None):
+            with self.blob.open('rb') as f:
                 self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.wv= pickle.load(f)
         else:
-
+            print("pickle is not found, create now")
             poynter_df = pd.read_csv(self.poynter_data_path).dropna().iloc[:, 1:]
             cord19_df = pd.read_csv(self.cord19_data_path).dropna().iloc[:, 1:]
             # Load in data
@@ -117,12 +135,8 @@ class Model():
                     i+=1
                     continue
                 preprocessed_data.append(self.preprocess(t))
-                if len(t) < 1000:
-                    self.text_t.append(t)
-                else:
-                    text=t.split(" ")
-                    reducedtext=" ".join(text[:200])
-                    self.text_t.append(reducedtext+" ...")
+
+                self.text_t.append(t[:1000]+"...")
                 self.sources.append("cord19")
                 data_urls.append(None)
                 data_regions.append(None)
@@ -150,7 +164,7 @@ class Model():
                 # update inverted index using headline and text for document "cur_id"
                 self.inverted_index = self.get_inverted_index(d, d_id)
 
-            with open( self.save_path, 'wb') as f:
+            with open(self.save_path, 'wb') as f:
                 pickle.dump((self.inverted_index, self.ids, self.text_t,self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.wv), f)
 
     def get_tf_vectors(self, t, d):
