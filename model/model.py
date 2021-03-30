@@ -100,10 +100,10 @@ class Model():
         # loading pickle from local
         if exists(self.save_path):
             with open(self.save_path,'rb') as f:
-        
-        # loading pickle from google cloud storage
-        # if (self.blob!=None):
-        #     with self.blob.open('rb') as f:
+                self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.w2v_model= pickle.load(f)
+        #loading pickle from google cloud storage
+        elif (self.blob!=None):
+            with self.blob.open('rb') as f:
                 self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.w2v_model= pickle.load(f)
         
         else:
@@ -175,7 +175,7 @@ class Model():
 
         for dw in self.doc_text[d]:
             if dw not in self.w2v_model.wv.vocab:
-                print("hit1")
+                # print("hit1")
                 continue
             else:
                 sim=self.w2v_model.similarity(t,dw)
