@@ -52,7 +52,7 @@ def result(inp,datatype):
     # please choose one of algorithms to run, tfidf or tfidf_w2v
     tfidf=False
     tfifw_w2v=True
-    articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype,tfidf)
+    articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype,tfifw_w2v)
     src100=np.array(score)*100
     roundsrc=np.round(src100,2)
     found=True

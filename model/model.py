@@ -96,20 +96,21 @@ class Model():
         self.region_mapping = {}
         self.titles=[]
         self.doc_text={}
-
+        self.w2v_model= []
         # loading pickle from local
-        # if exists(self.save_path):
-        #     with open(self.save_path,'rb') as f:
+        if exists(self.save_path):
+            with open(self.save_path,'rb') as f:
         
-        #loading pickle from google cloud storage
-        if (self.blob!=None):
-            with self.blob.open('rb') as f:
-                self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text= pickle.load(f)
+        # loading pickle from google cloud storage
+        # if (self.blob!=None):
+        #     with self.blob.open('rb') as f:
+                self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.w2v_model= pickle.load(f)
+        
         else:
             print("pickle is not found, create now")
             poynter_df = pd.read_csv(self.poynter_data_path).dropna().iloc[:, 1:]
             cord19_df = pd.read_csv(self.cord19_data_path).dropna().iloc[:, 1:]
-
+            self.w2v_model=Word2Vec.load(self.covid_w2v_path)
 
             poynter_df=poynter_df.drop_duplicates(subset='content', keep="first")
             poynter=list(poynter_df["content"]+" "+poynter_df["explanation"])
@@ -163,11 +164,11 @@ class Model():
                 self.inverted_index = self.get_inverted_index(d, d_id)
 
             with open(self.save_path, 'wb') as f:
-                pickle.dump((self.inverted_index, self.ids, self.text_t,self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text), f)
+                pickle.dump((self.inverted_index, self.ids, self.text_t,self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.w2v_model), f)
 
     def get_tf_vectors(self, t, d):
         if t not in self.w2v_model.wv.vocab:
-            print("hit")
+            # print("hit")
             return self.inverted_index[t][d][0]
         threshold=0.85
         count=0
@@ -212,9 +213,9 @@ class Model():
         return docs
 
     def parse_tfidf_query(self,q,wv=False,dataset="poynter"):
-        if wv:
-            #load model.bin
-            self.w2v_model=Word2Vec.load(self.covid_w2v_path)
+        # if wv:
+        #     #load model.bin
+        #     self.w2v_model=Word2Vec.load(self.covid_w2v_path)
         weighted_docs={}
         self.wv=wv
         terms=self.preprocess(q)
