@@ -8,6 +8,8 @@
 
     <div class="contentBox">
         <div class="menuTypeList">
+            <h6 style=color:gray> <div style="padding-left:30px;">Searching Mode Selection: Mode1 -> TF-IDF ONLY</div></h6>
+            <h6 style=color:gray><div style="padding-left:233px;">Mode2 -> TF-IDF with W2V</div></h6>
             <div class="boxcontainer">
                 <form action="#" method="POST" id="searchForm">
                     <div class="input-group">
@@ -34,9 +36,9 @@
                             <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
                             float: left; ">
                                 {% if dataset == 'poynter' %}
-                                    Dataset1
+                                    Poynter
                                 {% elif   dataset == 'cord19'%}
-                                    Dataset2
+                                    Papers
                                 {% else %}
                                     Both
                                 {% endif %}
@@ -44,8 +46,8 @@
                             </button>
                         
                             <ul class="dropdown-menu">
-                                <li  onclick="selection('poynter')" style="padding: 10px 10px;">Dataset1</li>
-                                <li  onclick="selection('cord19')" style="padding: 10px 10px;">Dataset2</li>
+                                <li  onclick="selection('poynter')" style="padding: 10px 10px;">Poynter</li>
+                                <li  onclick="selection('cord19')" style="padding: 10px 10px;">Papers</li>
                                 <li  onclick="selection('all')" style="padding: 10px 10px;">Both</li>
                             </ul>
                         </div>
