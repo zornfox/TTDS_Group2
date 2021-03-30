@@ -10,28 +10,46 @@
         <div class="menuTypeList">
             <div class="boxcontainer">
                 <form action="#" method="POST" id="searchForm">
-                    <div class="searchbox">
+                    <div class="input-group">
+                        <div class="searchbox">
+                            <input type="hidden" id="w2v" name="w2v" value={{w2v}}>
+                            <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
+                            float: left; ">
+                                {% if w2v == 'T' %}
+                                    Mode2
+                                {% else %}
+                                    Model1
+                                {% endif %}
+                                <span class="caret"></span>
+                            </button>
                         
-                        <input type="hidden" id="dataset" name="dataset" value={{dataset}}>
-                        <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
-                        float: left; ">
-                            {% if dataset == 'poynter' %}
-                                From Poynter
-                            {% elif   dataset == 'cord19'%}
-                                    From Research Papers
-                            {% else %}
-                                From All
-                            {% endif %}
-                            <span class="caret"></span>
-                        </button>
-                    
-                        <ul class="dropdown-menu">
-                            <li  onclick="selection('poynter')" style="padding: 10px 10px;">From Poynter</li>
-                            <li  onclick="selection('cord19')" style="padding: 10px 10px;">From Research Papers</li>
-                            <li  onclick="selection('all')" style="padding: 10px 10px;">From All</li>
-                        </ul>
-                    
+                            <ul class="dropdown-menu">
+                                <li  onclick="select_Algorithm('F')" style="padding: 10px 10px;"> Mode1</li>
+                                <li  onclick="select_Algorithm('T')" style="padding: 10px 10px;"> Mode2</li>
+                            </ul>
+                        </div>
 
+                        <div class="searchbox">
+                            <input type="hidden" id="dataset" name="dataset" value={{dataset}}>
+                            <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
+                            float: left; ">
+                                {% if dataset == 'poynter' %}
+                                    Dataset1
+                                {% elif   dataset == 'cord19'%}
+                                    Dataset2
+                                {% else %}
+                                    Both
+                                {% endif %}
+                                <span class="caret"></span>
+                            </button>
+                        
+                            <ul class="dropdown-menu">
+                                <li  onclick="selection('poynter')" style="padding: 10px 10px;">Dataset1</li>
+                                <li  onclick="selection('cord19')" style="padding: 10px 10px;">Dataset2</li>
+                                <li  onclick="selection('all')" style="padding: 10px 10px;">Both</li>
+                            </ul>
+                        </div>
+                        
                         <input class="searchtxt" id="searchbar" type="text" name="txt" placeholder="Search" value="{{input}}" required>
                         <button type="submit" class="searchbtn">
                             <i class="fas fa-search"></i>
@@ -39,7 +57,6 @@
                         <button type="button" onclick="clearThis()" class="clear">
                             <i class="fas fa-times"></i>
                         </button>
-
                     </div>
                 </form>
             </div>

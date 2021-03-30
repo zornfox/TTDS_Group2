@@ -10,3 +10,11 @@ function selection(val){
         $('#searchForm').submit()
     }
 }
+
+function select_Algorithm(val){
+    $('#w2v').val(val)
+    text =$('#searchbar').val
+    if(text){
+        $('#searchForm').submit()
+    }
+}
