@@ -34,7 +34,7 @@ logger.info("Load model use time: %.2f second" % (time.time() - start_time))
 def showpage(page=None):
     if request.method == "POST":
         text = request.form["txt"]
-        return redirect(url_for("result", inp=text, datatype="all"))
+        return redirect(url_for("result", inp=text,datatype='all',wv='F')) 
     elif page:
         # called with page parameter
         return render_template('%s.html' % page)
@@ -43,16 +43,22 @@ def showpage(page=None):
         return render_template("web.html")
 
 
-@app.route("/<inp>/<datatype>", methods=["POST","GET"])
-def result(inp,datatype):
+
+@app.route("/<inp>/<datatype>/<wv>", methods=["POST","GET"])
+def result(inp,datatype,wv):
     print("Search for: "+inp)
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
+    currDataset  = request.form.get("dataset", type=str,default="all")
+    
+    currAlgorithm = request.form.get("w2v", type=str, default="F")
     print('Using dataset',datatype)
+    print(wv)
     # please choose one of algorithms to run, tfidf or tfidf_w2v
-    tfidf=False
-    tfifw_w2v=True
-    articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype,tfidf)
+    _w2v = False
+    if(wv == 'T' ):
+        _w2v = True        
+    articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype,_w2v)
     src100=np.array(score)*100
     roundsrc=np.round(src100,2)
     found=True
@@ -64,14 +70,13 @@ def result(inp,datatype):
 
     pagination = Pagination(page_no, articles_datas, page_size=page_size)
     if request.method =="POST":
-        currDataset  = request.form.get("dataset", type=str)
         text = request.form["txt"]
         #if the input is empty and try to change dataset, it will go to search for nothing
         if text=="":
             text=" "
-        return redirect(url_for("result", inp=text, datatype=currDataset))
+        return redirect(url_for("result", inp=text, datatype=currDataset, wv=currAlgorithm ))
     else:
-        return render_template("result.html",pagination=pagination,input=inp, found=found, dataset=datatype)
+        return render_template("result.html",pagination=pagination,input=inp, found=found, dataset=datatype,w2v=wv)
 
 
 class Pagination(object):
