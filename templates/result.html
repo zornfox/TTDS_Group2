@@ -8,13 +8,14 @@
 
     <div class="contentBox">
         <div class="menuTypeList">
-
+            <h6 style=color:gray> <div style="padding-left:43px;font-size: small;">Note: Searching Mode Selection: Mode1 -> TF-IDF ONLY </div></h6>
+            <h6 style=color:gray><div style="padding-left:250px;font-size: small;">Mode2 -> TF-IDF with W2V</div></h6>
             <div class="boxcontainer">
                 <form action="#" method="POST" id="searchForm">
                     <div class="input-group">
                         <div class="searchbox">
                             <input type="hidden" id="w2v" name="w2v" value={{w2v}}>
-                            <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
+                            <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle; text-align: center;
                             float: left;width:92.13px; ">
                                 {% if w2v == 'T' %}
                                     Mode2
@@ -32,7 +33,7 @@
 
                         <div class="searchbox">
                             <input type="hidden" id="dataset" name="dataset" value={{dataset}}>
-                            <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
+                            <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;text-align: center;
                             float: left; width:99.7px;">
                                 {% if dataset == 'poynter' %}
                                     Poynter
@@ -62,8 +63,7 @@
                     </div>
                 </form>
             </div>
-            <h6 style=color:gray> <div style="padding-left:43px;font-size: small;">Note: Searching Mode Selection: Mode1 -> TF-IDF ONLY </div></h6>
-            <h6 style=color:gray><div style="padding-left:250px;font-size: small;">Mode2 -> TF-IDF with W2V</div></h6>
+
 
 
             {%if not found%}
