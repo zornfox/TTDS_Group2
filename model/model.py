@@ -30,11 +30,11 @@ class Model():
         self.covid_w2v_path = covid_w2v_path
         self.all_w2v_path = all_w2v_path
 
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="key/coviddoc-439bbe4bbf8f.json"
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="key/coviddocs-15e38cec4a0a.json"
         # Instantiates a client
         storage_client = storage.Client()
         # The name for the new bucket
-        bucket_name = "coviddocs"
+        bucket_name = "coviddocuments"
         # Creates the new bucket
         bucket = storage_client.bucket(bucket_name)
         filename = "model_short.pickle"
