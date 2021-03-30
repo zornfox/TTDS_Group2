@@ -160,11 +160,10 @@ vertical-align: center;
 }
 .menuTypeList .searchtxt{
 /*width:90%;*/
-width: calc(100% - 297px);
-height:100%;
+width: calc(100% - 278px);
 border:none;
 /*padding: 0px 10px;*/
-padding: 5px 10px;
+padding: 5px;
 color:#424242;
 display: flex;
 font-size: 18pt;
@@ -176,13 +175,13 @@ float: right;
 color:black;
 width: 45px;
 height: 45px;
-border-radius:50%;
+border-radius:10px;
 display:flex;
 justify-content: center;
 align-items:center;
 background-color: white;
 border-style: none;
-display: inline-block !important;
+display: inline-flex !important;
 }
 
 .menuTypeList .searchbtn :hover, .clear:hover{

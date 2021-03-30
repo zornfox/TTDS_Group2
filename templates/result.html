@@ -8,15 +8,14 @@
 
     <div class="contentBox">
         <div class="menuTypeList">
-            <h6 style=color:gray> <div style="padding-left:30px;">Searching Mode Selection: Mode1 -> TF-IDF ONLY</div></h6>
-            <h6 style=color:gray><div style="padding-left:233px;">Mode2 -> TF-IDF with W2V</div></h6>
+
             <div class="boxcontainer">
                 <form action="#" method="POST" id="searchForm">
                     <div class="input-group">
                         <div class="searchbox">
                             <input type="hidden" id="w2v" name="w2v" value={{w2v}}>
                             <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
-                            float: left; ">
+                            float: left;width:92.13px; ">
                                 {% if w2v == 'T' %}
                                     Mode2
                                 {% else %}
@@ -34,7 +33,7 @@
                         <div class="searchbox">
                             <input type="hidden" id="dataset" name="dataset" value={{dataset}}>
                             <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown" style=" height:100%; vertical-align: middle;
-                            float: left; ">
+                            float: left; width:99.7px;">
                                 {% if dataset == 'poynter' %}
                                     Poynter
                                 {% elif   dataset == 'cord19'%}
@@ -53,16 +52,18 @@
                         </div>
                         
                         <input class="searchtxt" id="searchbar" type="text" name="txt" placeholder="Search" value="{{input}}" required>
-                        <button type="submit" class="searchbtn">
-                            <i class="fas fa-search"></i>
-                        </button>
                         <button type="button" onclick="clearThis()" class="clear">
                             <i class="fas fa-times"></i>
                         </button>
+                        <button type="submit" class="searchbtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+
                     </div>
                 </form>
             </div>
-
+            <h6 style=color:gray> <div style="padding-left:43px;font-size: small;">Note: Searching Mode Selection: Mode1 -> TF-IDF ONLY </div></h6>
+            <h6 style=color:gray><div style="padding-left:250px;font-size: small;">Mode2 -> TF-IDF with W2V</div></h6>
 
 
             {%if not found%}

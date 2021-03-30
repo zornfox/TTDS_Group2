@@ -97,12 +97,14 @@ class Model():
         self.titles=[]
         self.doc_text={}
         self.w2v_model= []
-        # loading pickle from local
+        #loading pickle from local
         if exists(self.save_path):
+            print("loading pickle from local")
             with open(self.save_path,'rb') as f:
                 self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.w2v_model= pickle.load(f)
         #loading pickle from google cloud storage
         elif (self.blob!=None):
+            print("loading pickle from google cloud storage")
             with self.blob.open('rb') as f:
                 self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.w2v_model= pickle.load(f)
         
