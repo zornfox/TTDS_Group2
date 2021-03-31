@@ -7,4 +7,20 @@
 ## 4 source env/bin/activate
 ## 5 pip3 install -r requirements.txt
 ## 6 python3 server.py
-    
+
+```bash
+
+## Build Command
+docker build -t gitdorker .
+
+## Basic Run Command
+docker run -it gitdorker
+
+## Run Command
+docker run -it -v $(pwd)/tf:/tf gitdorker -tf tf/TOKENSFILE -q tesla.com -d dorks/DORKFILE -o tesla
+
+## Run Command
+docker run -it -v $(pwd)/tf:/tf xshuden/gitdorker -tf tf/TOKENSFILE -q tesla.com -d dorks/DORKFILE -o tesla
+
+```
+
