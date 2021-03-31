@@ -21,8 +21,8 @@ pip3 install -r requirements.txt
 
 ## run API 
 python3 server.py
-
-## wait for 1 or 2 minutes, click http://127.0.0.1:5000/
+ 
+wait for 1 or 2 minutesclick http://127.0.0.1:5000/
 
 ```
 
