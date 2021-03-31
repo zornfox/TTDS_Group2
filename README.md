@@ -1,5 +1,5 @@
 
-# TTDS_Group2 （Go to branch Newmain)
+# TTDS_Group2 （Go to branch newMain)
 
 ## Method 1: How to run the project in your Terminal (Try Method 2 if Method 1 is not working)
 ```bash
