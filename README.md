@@ -7,6 +7,7 @@
 ## 4 source env/bin/activate
 ## 5 pip3 install -r requirements.txt
 ## 6 python3 server.py
+## 7 http://127.0.0.1:5000/
 
 ```bash
 
