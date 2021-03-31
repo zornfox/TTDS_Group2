@@ -1,11 +1,12 @@
 Flask==1.1.2
 gunicorn==19.10.0
-numpy==1.19.5
+numpy==1.19.2
 pandas==1.1.5
 scikit-learn==0.24.1
 stemming==1.0.1
 logger==1.4
 pickle-mixin==1.0.2
 google-cloud-storage==1.37.0
-gensim==3.8.2
+gensim==3.8.3
 logger==1.4
+wheel==0.36.2
