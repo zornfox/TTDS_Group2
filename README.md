@@ -1,27 +1,28 @@
 # TTDS_Group2
 
  
-## 1 git clone --branch newMain https://github.com/zornfox/TTDS_Group2.git
-## 2 cd TTDS_Group2
-## 3 python3 -m venv env
-## 4 source env/bin/activate
-## 5 pip3 install -r requirements.txt
-## 6 python3 server.py
-## 7 http://127.0.0.1:5000/
-
+## How to run the project in your Terminal (Method 2: Try the following steps if Method 1 is not working)
 ```bash
 
-## Build Command
-docker build -t gitdorker .
+## clone the branch to local 
+git clone --branch newMain https://github.com/zornfox/TTDS_Group2.git
 
-## Basic Run Command
-docker run -it gitdorker
+## change directory to TTDS_Group2
+cd TTDS_Group2
 
-## Run Command
-docker run -it -v $(pwd)/tf:/tf gitdorker -tf tf/TOKENSFILE -q tesla.com -d dorks/DORKFILE -o tesla
+## create a new environment 
+python3 -m venv env
 
-## Run Command
-docker run -it -v $(pwd)/tf:/tf xshuden/gitdorker -tf tf/TOKENSFILE -q tesla.com -d dorks/DORKFILE -o tesla
+## activate the new 
+source env/bin/activate
+
+## install requirements.txt
+pip3 install -r requirements.txt
+
+## run API 
+python3 server.py
+
+## wait for 1 or 2 minutes, click http://127.0.0.1:5000/
 
 ```
 
