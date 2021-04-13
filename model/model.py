@@ -246,7 +246,7 @@ class Model():
                     else:
                         cur_w=cur_w+self.TFIDF(t,d)
             weighted_docs[d]=cur_w
-        if f_wv == 0 :
+        if f_wv == 0 and wv is True:
             weighted_docs={}
         sorted_docs = {k: v for k, v in sorted(weighted_docs.items(), key=lambda item: item[1], reverse = True)}
         return sorted_docs
