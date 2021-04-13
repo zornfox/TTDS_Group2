@@ -57,18 +57,7 @@ def result(inp,datatype,wv):
     # please choose one of algorithms to run, tfidf or tfidf_w2v
     _w2v = False
     if(wv == 'T' ):
-        _w2v = True        
-    articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype,_w2v)
-    src100=np.array(score)*100
-    roundsrc=np.round(src100,2)
-    found=True
-    if articles==[]:
-        found=False
-        roundsrc=[]
-    #combine all the data we need into a set
-    articles_datas=np.vstack((articles,articles_urls,roundsrc,region,titles)).T
-
-    pagination = Pagination(page_no, articles_datas, page_size=page_size)
+        _w2v = True  
     if request.method =="POST":
         text = request.form["txt"]
         #if the input is empty and try to change dataset, it will go to search for nothing
@@ -76,6 +65,17 @@ def result(inp,datatype,wv):
             text=" "
         return redirect(url_for("result", inp=text, datatype=currDataset, wv=currAlgorithm ))
     else:
+        articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype,_w2v)
+        src100=np.array(score)*100
+        roundsrc=np.round(src100,2)
+        found=True
+        if articles==[]:
+            found=False
+            roundsrc=[]
+        #combine all the data we need into a set
+        articles_datas=np.vstack((articles,articles_urls,roundsrc,region,titles)).T
+
+        pagination = Pagination(page_no, articles_datas, page_size=page_size)
         return render_template("result.html",pagination=pagination,input=inp, found=found, dataset=datatype,w2v=wv)
 
 
@@ -130,4 +130,4 @@ class Pagination(object):
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
