@@ -221,7 +221,7 @@ class Model():
         weighted_docs={}
         self.wv=wv
         terms=self.preprocess(q)
-
+        f_wv=0
         if wv:
             docs=[]
             for i in self.ids:
@@ -241,9 +241,13 @@ class Model():
                     # compute the TFIDF for term t and document d
                     if (self.wv==True):
                         cur_w=cur_w+self.TFIDF_wv(t,d)
+                        if cur_w!=0:
+                            f_wv+=1
                     else:
                         cur_w=cur_w+self.TFIDF(t,d)
             weighted_docs[d]=cur_w
+        if f_wv == 0 :
+            weighted_docs={}
         sorted_docs = {k: v for k, v in sorted(weighted_docs.items(), key=lambda item: item[1], reverse = True)}
         return sorted_docs
 
@@ -261,6 +265,7 @@ class Model():
         if retrieved_scores!=[]:
             retrieved_scores /= np.max(retrieved_scores)
             retrieved_scores=retrieved_scores[0:retrieve_num]
+            print("retrieved_scores")
         else:
             retrieved_scores=1
         for i in article_ids:

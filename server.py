@@ -46,14 +46,10 @@ def showpage(page=None): #!!!!!!!!!!!!!
 
 @app.route("/<inp>/<datatype>/<wv>", methods=["POST","GET"]) #!!!!!!!!!!!!!
 def result(inp,datatype,wv): #!!!!!!!!!!!!!
-    print("Search for: "+inp)
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
-    currDataset  = request.form.get("dataset", type=str,default="all")
-    
+    currDataset  = request.form.get("dataset", type=str,default="all")   
     currAlgorithm = request.form.get("w2v", type=str, default="F")
-    print('Using dataset',datatype)
-    print(wv)
     # please choose one of algorithms to run, tfidf or tfidf_w2v
     _w2v = False
     if(wv == 'T' ):
@@ -65,6 +61,9 @@ def result(inp,datatype,wv): #!!!!!!!!!!!!!
             text=" "
         return redirect(url_for("result", inp=text, datatype=currDataset, wv=currAlgorithm )) #!!!!!!!!!!!!!
     else: #!!!!!!!!!!!!!
+        print("Search for: "+inp)
+        print('Using dataset',datatype)
+        print(wv)
         articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype,_w2v) #!!!!!!!!!!!!!
         src100=np.array(score)*100
         roundsrc=np.round(src100,2)
@@ -130,4 +129,4 @@ class Pagination(object):
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
