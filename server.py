@@ -30,22 +30,22 @@ logger.info("Load model use time: %.2f second" % (time.time() - start_time))
 #        return render_template("web.html")
 
 @app.route("/", methods=["POST", "GET"])
-@app.route("/<page>", methods=["POST", "GET"])
-def showpage(page=None):
-    if request.method == "POST":
-        text = request.form["txt"]
-        return redirect(url_for("result", inp=text,datatype='all',wv='F')) 
+@app.route("/<page>", methods=["POST", "GET"]) #!!!!!!!!!!!!!
+def showpage(page=None): #!!!!!!!!!!!!!
+    if request.method == "POST": #!!!!!!!!!!!!!
+        text = request.form["txt"] #!!!!!!!!!!!!!
+        return redirect(url_for("result", inp=text,datatype='all',wv='F'))  #!!!!!!!!!!!!!
     elif page:
         # called with page parameter
         return render_template('%s.html' % page)
-    else:
+    else: #!!!!!!!!!!!!!
         # called without page parameter, default to home page
-        return render_template("web.html")
+        return render_template("web.html") #!!!!!!!!!!!!!
 
 
 
-@app.route("/<inp>/<datatype>/<wv>", methods=["POST","GET"])
-def result(inp,datatype,wv):
+@app.route("/<inp>/<datatype>/<wv>", methods=["POST","GET"]) #!!!!!!!!!!!!!
+def result(inp,datatype,wv): #!!!!!!!!!!!!!
     print("Search for: "+inp)
     page_no = request.args.get('page', 0, type=int)
     page_size = request.args.get('pageSize', 5, type=int)
@@ -58,14 +58,14 @@ def result(inp,datatype,wv):
     _w2v = False
     if(wv == 'T' ):
         _w2v = True  
-    if request.method =="POST":
-        text = request.form["txt"]
+    if request.method =="POST": #!!!!!!!!!!!!!
+        text = request.form["txt"] #!!!!!!!!!!!!!
         #if the input is empty and try to change dataset, it will go to search for nothing
         if text=="":
             text=" "
-        return redirect(url_for("result", inp=text, datatype=currDataset, wv=currAlgorithm ))
-    else:
-        articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype,_w2v)
+        return redirect(url_for("result", inp=text, datatype=currDataset, wv=currAlgorithm )) #!!!!!!!!!!!!!
+    else: #!!!!!!!!!!!!!
+        articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype,_w2v) #!!!!!!!!!!!!!
         src100=np.array(score)*100
         roundsrc=np.round(src100,2)
         found=True
@@ -76,7 +76,7 @@ def result(inp,datatype,wv):
         articles_datas=np.vstack((articles,articles_urls,roundsrc,region,titles)).T
 
         pagination = Pagination(page_no, articles_datas, page_size=page_size)
-        return render_template("result.html",pagination=pagination,input=inp, found=found, dataset=datatype,w2v=wv)
+        return render_template("result.html",pagination=pagination,input=inp, found=found, dataset=datatype,w2v=wv) #!!!!!!!!!!!!!
 
 
 class Pagination(object):
@@ -130,4 +130,4 @@ class Pagination(object):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
