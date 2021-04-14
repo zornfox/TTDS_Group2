@@ -62,8 +62,12 @@ def result(inp,datatype,wv): #!!!!!!!!!!!!!
         return redirect(url_for("result", inp=text, datatype=currDataset, wv=currAlgorithm )) #!!!!!!!!!!!!!
     else: #!!!!!!!!!!!!!
         print("Search for: "+inp)
-        print('Using dataset',datatype)
-        print(wv)
+        print('Using dataset',datatype) 
+        if wv =='T':
+            num=2
+        else:
+            num=1
+        print('Using model',num)
         articles, articles_urls, score, region,titles=m.retrieve_documents(inp,100,datatype,_w2v) #!!!!!!!!!!!!!
         src100=np.array(score)*100
         roundsrc=np.round(src100,2)

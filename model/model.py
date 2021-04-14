@@ -102,7 +102,7 @@ class Model():
             print("loading pickle from local")
             with open(self.save_path,'rb') as f:
                 self.inverted_index, self.ids, self.text_t, self.sources,self.url_mapping,self.region_mapping,self.titles,self.doc_text,self.w2v_model= pickle.load(f)
-        #loading pickle from google cloud storage
+        # loading pickle from google cloud storage
         elif (self.blob!=None):
             print("loading pickle from google cloud storage")
             with self.blob.open('rb') as f:
@@ -142,7 +142,7 @@ class Model():
                     continue
                 preprocessed_data.append(self.preprocess(t))
 
-                self.text_t.append(t[:1000]+"...")
+                self.text_t.append(t)
                 self.sources.append("cord19")
                 data_urls.append(None)
                 data_regions.append(None)
@@ -265,7 +265,6 @@ class Model():
         if retrieved_scores!=[]:
             retrieved_scores /= np.max(retrieved_scores)
             retrieved_scores=retrieved_scores[0:retrieve_num]
-            print("retrieved_scores")
         else:
             retrieved_scores=1
         for i in article_ids:
