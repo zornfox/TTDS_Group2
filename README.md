@@ -1,4 +1,4 @@
-# TTDS_Group2 （Go to branch newMain)
+# TTDS_Group2 （Go to branch newMain） Final Mark:79%
 
 ## demo webiste (limited functionality): http://coviddocs.ey.r.appspot.com
 
